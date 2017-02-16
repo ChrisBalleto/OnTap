@@ -1,0 +1,17 @@
+﻿@model OnTap.ViewModels.RoleViewModel
+@{
+    ViewBag.Title = "ChooseRoleView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Select User Type</h2>
+
+@using (Html.BeginForm("ChooseRole", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.RoleNameId)
+        @Html.DropDownListFor(m => m.RoleNameId, new SelectList(Model.RoleNames, "Id", "Name"), "Select User Type", new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+}

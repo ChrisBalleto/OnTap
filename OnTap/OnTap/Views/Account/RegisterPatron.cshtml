@@ -1,0 +1,102 @@
+﻿@model OnTap.ViewModels.RegisterPatronViewModel
+@{
+    ViewBag.Title = "RegisterPatron";
+}
+
+<h2>New Patron Sign-up</h2>
+
+@using (Html.BeginForm("RegisterPatron", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <h5>Basic Info</h5>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Patron.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Patron.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.BirthDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Patron.BirthDate, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.PhoneNumber, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Patron.PhoneNumber, new { @class = "form-control" }).
+        </div>
+    </div>
+    <hr/>
+    <h5>Address</h5>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.StreetOne, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Patron.StreetOne, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.StreetTwo, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Patron.StreetTwo, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.CityId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Patron.CityId, new SelectList(Model.Cities, "Id", "CityName"), "City", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.StateId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Patron.StateId, new SelectList(Model.States, "Id", "StateName"), "State", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.ZipCodeId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Patron.ZipCodeId, new SelectList(Model.ZipCodes, "Id", "ZipCodeNum"), "Zip-Code", new { @class = "form-control" })
+        </div>
+    </div>
+    <hr />
+    <h5>Security</h5>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Patron.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Patron.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Patron.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Patron.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.Patron.Id)
+    @Html.HiddenFor(m => m.Patron.RoleNameId)
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+    
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

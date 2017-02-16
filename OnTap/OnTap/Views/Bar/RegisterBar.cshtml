@@ -1,0 +1,93 @@
+﻿@model OnTap.ViewModels.RegisterBarViewModel
+@{
+    ViewBag.Title = "RegisterBar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>RegisterBar</h2>
+
+<h2>New Bar Sign-up</h2>
+
+@using (Html.BeginForm("RegisterBar", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <h5>Basic Info</h5>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bar.BarName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Bar.BarName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bar.PhoneNumber, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Bar.PhoneNumber, new { @class = "form-control" }).
+        </div>
+    </div>
+    <hr />
+    <h5>Address</h5>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bar.StreetOne, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Bar.StreetOne, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bar.StreetTwo, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Bar.StreetTwo, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bar.CityId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Bar.CityId, new SelectList(Model.Cities, "Id", "CityName"), "City", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bar.StateId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Bar.StateId, new SelectList(Model.States, "Id", "StateName"), "State", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bar.ZipCodeId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Bar.ZipCodeId, new SelectList(Model.ZipCodes, "Id", "ZipCodeNum"), "Zip-Code", new { @class = "form-control" })
+        </div>
+    </div>
+    <hr />
+    <h5>Security</h5>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bar.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Bar.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bar.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Bar.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bar.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Bar.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.Bar.Id)
+    @Html.HiddenFor(m => m.Bar.RoleNameId)
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
