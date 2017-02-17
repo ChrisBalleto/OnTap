@@ -1,0 +1,88 @@
+﻿@model OnTap.ViewModels.HoursOfOperationViewModel
+@{
+    ViewBag.Title = "HoursOfOperation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Hours</h2>
+    <table class="table table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>@Html.LabelFor(m => m.HoursOfOperation.OpenTime)</th>
+                <th>@Html.LabelFor(m => m.HoursOfOperation.CloseTime)</th>
+        </thead>
+        <tbody>
+            @{var i = 0;}
+            @foreach (var day in Model.DayOfWeeks)
+            {
+                <tr>
+                    <td name="day_@i" value="@day.Id">@day.DayOfWeekName </td>
+                    <td > <input id="Title" name="openTime_@i" type="time" value="" /></td>
+                    <td > <input id="Title" name="closeTime_@i" type="time" value="" /></td>
+                </tr>
+                            i++;
+                        }
+        </tbody>
+    </table>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input id ="addHoursToBar" type="submit" class="btn btn-default" value="Add" />
+    </div>
+</div>
+
+
+
+
+<script>
+    var days = [];
+    var openHours = [];
+    var closeHours = [];
+
+    $('#addHoursToBar').on("click", function () {
+        days = [];
+        openHours = [];
+        closeHours = [];
+        getDaysToList();
+        getOpenTimeToList();
+        getCloseTimeToList();
+        sendHourstoController();
+
+    });
+
+    function sendHourstoController(days, opens, closes){
+        $.ajax({
+            'type': 'POST',
+            'url': '../HoursOfOperation',
+            'data': {
+                'id': @Model.Bar.Id,
+                'dayIds':days,
+                'openTimes': openHours,
+                'closeTimes':closeHours,
+            }
+        })
+    }
+    function getDaysToList(){
+        for(var i = 0; i < 7;i++){
+            var day = $('#day_'+i).val();
+            days.push(day);
+        }
+    }
+    function getOpenTimeToList(){
+        for(var i = 0; i < 7;i++){
+            var openTime = $('#openTime_'+i).val();
+            openHours.push(openTime);
+        }
+    }
+    function getCloseTimeToList(){
+        for(var i = 0; i < 7;i++){
+            var closeTime = $('#closeTime_'+i).val();
+            closeHours.push(closeTime);
+        }
+    }
+
+</script>
+
+
+

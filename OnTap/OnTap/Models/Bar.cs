@@ -72,6 +72,8 @@ namespace OnTap.Models
 
         public int? RatingCount { get; set; }
 
+        public List<string> BeerIdList { get; set; }
+
         public virtual ICollection<HoursOfOperation> HoursOfOperations { get; set; }
         public virtual ICollection<Special> Specials { get; set; }
         public virtual ICollection<Review> BarReviews { get; set; }

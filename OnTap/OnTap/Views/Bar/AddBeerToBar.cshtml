@@ -1,4 +1,4 @@
-﻿
+﻿@model OnTap.Models.Bar
 @{
     ViewBag.Title = "AddBeerToBar";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -27,64 +27,109 @@
             <tr></tr>
         </tbody>
     </table>
-    <ul id="beersToAdd" class="list-group"></ul>
-    <button id="addToDb" class="btn btn-primary">Add to list</button>
+    @*@using (Html.BeginForm("AddBeerToBar", "Bar", FormMethod.Post, new { @class = "form-horizontal", roll = "form" }))*@
     
-    
+        <div class="form-group">
+            <table id="beersToAdd" class="table table-condensed table-hover .table-bordered" border-color='white'>
+                <thead>
+                    <tr>
+
+                        <th>Beer(s) to Add</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr></tr>
+                </tbody>
+            </table>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input id ="addBeersToBeerList" type="submit" class="btn btn-default" value="Add to Tap List" />
+                </div>
+            </div>
 
 
-    <script>
-        var $beers = $('#beers');
-
-        
 
 
 
-        $("#search").on("click", function () {
-            var beer = $("#beer").val();
-            var yql_url = 'https://query.yahooapis.com/v1/public/yql';
-            var url = 'http://myservice.com/data.json';
-            var urlStart = "http://api.brewerydb.com/v2/search?q=";
-            var urlEnd = "&type=beer&key=0e3a7f468215ab0e24feb0175501b49b";
-            var searchUrl = getUrl(beer, urlStart, urlEnd);
-            $.ajax({
-                'url': yql_url,
-                'data': {
-                    'q': 'SELECT * FROM json WHERE url="' + searchUrl + '"',
-                    'format': 'json',
-                    'jsonCompat': 'new',
-                },
-                'dataType': 'jsonp',
-                'success': function (response) {
-                    showResults(response);
-                    console.log(response);
-                },
-            });
-            
-        });
 
-        function showResults(results) {
-            var results = results.query.results.json.data;
-            var iterations = 10;
-            if (results.length < iterations) {
-                iterations = fourSquareArray.length;
-            }
-            for (var i = 0; i < results.length; i++) {
-                $beers.append('<tr><td><button id="beer'+i+'"class="btn-link">Add Beer</button></td>'
-                +'<td><img src='+(results[i].labels === undefined ? "../Content/nophoto.png" : results[i].labels.medium)+' alt="" border=3 height=100 width=100></img></td>'
-                +'<td>' + results[i].name + '</td>'
-                +'<td>'+ results[i].abv +' </td>'
-                +'<td>'+ results[i].description +' </td></tr>'
-                );
-            }
-        }
 
-        function getUrl(beer, urlStart, urlEnd) {
-            parsedUrl = '';
-            beer = beer.replace(" ", "+");
-            parsedUrl = urlStart + beer + urlEnd;
-            return parsedUrl;
-        }
+            <script>
+                var $beers = $('#beers');
+                var $beersToAdd = $('#beersToAdd');
+                var idsToAdd = [];
 
-      
-    </script>     
+
+
+
+                function appendBeerList(beerName, beerId) {
+                    beerId = $(beerId)[0].innerHTML;
+                    idsToAdd.push(beerId)
+                    beerName = $(beerName)[0].innerHTML;
+                    var i = idsToAdd.length - 1;
+                    $beersToAdd.append('<tr><td name="row' + i + '">' + beerName + '</td>'
+                        + '<td type=\"text\" style="display:none;" name="beers[' + i + ']">' + beerId + '</td></tr>');
+                }
+                $('#addBeersToBeerList').on("click", function () {
+                    $.ajax({
+                        'type': 'POST',
+                        'url': 'AddBeerToBar',
+                        'data': {
+                             'id': @Model.Id,
+                            'beers':idsToAdd,
+                        }
+                    })
+                });
+
+
+
+                $("#search").on("click", function () {
+                    $("#beers tr ").remove();
+                    var beer = $("#beer").val();
+                    var yql_url = 'https://query.yahooapis.com/v1/public/yql';
+                    var url = 'http://myservice.com/data.json';
+                    var urlStart = "http://api.brewerydb.com/v2/search?q=";
+                    var urlEnd = "&type=beer&key=0e3a7f468215ab0e24feb0175501b49b";
+                    var searchUrl = getUrl(beer, urlStart, urlEnd);
+                    $.ajax({
+                        'url': yql_url,
+                        'data': {
+                            'q': 'SELECT * FROM json WHERE url="' + searchUrl + '"',
+                            'format': 'json',
+                            'jsonCompat': 'new',
+                        },
+                        'dataType': 'jsonp',
+                        'success': function (response) {
+                            showResults(response);
+                            console.log(response);
+                        },
+                    });
+                });
+
+                function showResults(results) {
+                    var results = results.query.results.json.data;
+                    var iterations = 5;
+                    if (results.length < iterations) {
+                        iterations = results.length;
+                    }
+                    for (var i = 0; i < iterations; i++) {
+                        $beers.append('<tr id="beerRow' + i + '"><td style="display:none;" id="beerId' + i + '">' + results[i].id + '</td>'
+                            + '<td><button class="btn-link js-add"  onclick="appendBeerList(\'#beerName' + i + '\', \'#beerId' + i + '\' )">Add Beer</button></td>'
+                        + '<td><img height="75"src=' + (results[i].labels === undefined ? "../../Content/nophoto.png" : results[i].labels.medium) + ' alt="" border=3 height=100 width=100></img></td>'
+                        + '<td id="beerName' + i + '">' + results[i].name + '</td>'
+                        + '<td>' + results[i].abv + ' </td>'
+                        + '<td>' + results[i].description + ' </td></tr>'
+                        );
+                    }
+                }
+
+                function getUrl(beer, urlStart, urlEnd) {
+                    parsedUrl = '';
+                    beer = beer.replace(" ", "+");
+                    parsedUrl = urlStart + beer + urlEnd;
+                    return parsedUrl;
+                }
+
+
+            </script>

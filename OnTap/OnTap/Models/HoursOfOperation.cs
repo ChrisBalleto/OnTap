@@ -16,8 +16,12 @@ namespace OnTap.Models
         public DateTime DayOfWeek { get; set; }
         public int DayOfWeekId { get; set; }
 
+        [Display(Name = "Open Time hh:mm AM/PM")]
+        [DisplayFormat(DataFormatString = "{0:hh:mm tt}")]
         public DateTime OpenTime { get; set; }
 
+        [Display(Name = "Close Time hh:mm AM/PM")]
+        [DisplayFormat(DataFormatString = "{0:hh:mm tt}")]
         public DateTime CloseTime { get; set; }
 
 

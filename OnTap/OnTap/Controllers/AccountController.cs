@@ -161,7 +161,7 @@ namespace OnTap.Controllers
                 return RedirectToAction("RegisterPatron", model);
 
             if (model.RoleNameId == 2)
-                return View("RegisterBar", model);
+                return RedirectToAction("RegisterBar", model);
 
 
             return View();
@@ -191,7 +191,7 @@ namespace OnTap.Controllers
             };
             viewModel.Bar.RoleNameId = model.RoleNameId;
 
-            return View();
+            return View(viewModel);
         }
 
 
@@ -210,11 +210,8 @@ namespace OnTap.Controllers
                     var roleManager = new RoleManager<IdentityRole>(roleStore);
                     await roleManager.CreateAsync(new IdentityRole("Bar"));
                     await UserManager.AddToRoleAsync(user.Id, "Bar");
-
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    
-                }
-                
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);                  
+                }               
                 AddErrors(result);
             }
             else
@@ -261,9 +258,7 @@ namespace OnTap.Controllers
             }
 
             _context.SaveChanges();
-            return RedirectToAction("BarDashboard", "Bar", bar);
-
-            return View(bar);
+            return RedirectToAction("", "Bar", bar);
         }
 
         [AllowAnonymous]
@@ -303,49 +298,51 @@ namespace OnTap.Controllers
                     await roleManager.CreateAsync(new IdentityRole("Patron"));
                     await UserManager.AddToRoleAsync(user.Id, "Patron");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    if(patron.Id == 0)
-                    {
-                        _context.Patrons.Add(patron);
-                    }
-                    else
-                    {
-                        var patronInDb = _context.Patrons.Single(c => c.Id == patron.Id);
-                        patronInDb.Email = patron.Email;
-                        patronInDb.Password = patron.Password;
-                        patronInDb.ConfirmPassword = patron.ConfirmPassword;
-                        patronInDb.RoleNameId = patron.RoleNameId;
-                        patronInDb.FirstName = patron.FirstName;
-                        patronInDb.LastName = patron.LastName;
-                        patronInDb.BirthDate = patron.BirthDate;
-                        patronInDb.StreetOne = patron.StreetOne;
-                        patronInDb.StreetTwo = patron.StreetTwo;
-                        patronInDb.StateId = patron.StateId;
-                        patronInDb.CityId = patron.CityId;
-                        patronInDb.ZipCodeId = patron.ZipCodeId;
-                        patronInDb.PhoneNumber = patron.PhoneNumber;
-                        patronInDb.FollowedBars = patron.FollowedBars;
-                        patronInDb.BarReviews = patron.BarReviews;
-                        
-                    }
+                    
 
-                    _context.SaveChanges();
-                    return RedirectToAction("PatronDashboard", "Patron", patron);
+                    
                 }
-                else
-                {
-                    var viewModel = new RegisterPatronViewModel
-                    {
-                        Patron = patron,
-                        ZipCodes = _context.ZipCodes.ToList(),
-                        Cities = _context.Cities.ToList(),
-                        States = _context.States.ToList(),
-                        RoleNames = _context.RoleNames.ToList(),
-                    };
-                    return View("RegisterPatron", viewModel);
-                }
+                
                 AddErrors(result);
             }
-            return View(patron);
+            else
+            {
+                var viewModel = new RegisterPatronViewModel
+                {
+                    Patron = patron,
+                    ZipCodes = _context.ZipCodes.ToList(),
+                    Cities = _context.Cities.ToList(),
+                    States = _context.States.ToList(),
+                    RoleNames = _context.RoleNames.ToList(),
+                };
+                return View("RegisterPatron", viewModel);
+            }
+            if (patron.Id == 0)
+            {
+                _context.Patrons.Add(patron);
+            }
+            else
+            {
+                var patronInDb = _context.Patrons.Single(c => c.Id == patron.Id);
+                patronInDb.Email = patron.Email;
+                patronInDb.Password = patron.Password;
+                patronInDb.ConfirmPassword = patron.ConfirmPassword;
+                patronInDb.RoleNameId = patron.RoleNameId;
+                patronInDb.FirstName = patron.FirstName;
+                patronInDb.LastName = patron.LastName;
+                patronInDb.BirthDate = patron.BirthDate;
+                patronInDb.StreetOne = patron.StreetOne;
+                patronInDb.StreetTwo = patron.StreetTwo;
+                patronInDb.StateId = patron.StateId;
+                patronInDb.CityId = patron.CityId;
+                patronInDb.ZipCodeId = patron.ZipCodeId;
+                patronInDb.PhoneNumber = patron.PhoneNumber;
+                patronInDb.FollowedBars = patron.FollowedBars;
+                patronInDb.BarReviews = patron.BarReviews;
+
+            }
+            _context.SaveChanges();
+            return RedirectToAction("PatronDashboard", "Patron", patron);
         }
 
         //
