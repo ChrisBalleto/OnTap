@@ -209,13 +209,18 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\SpecialsController.cs" />
     <Compile Include="Controllers\Api\PatronsController.cs" />
+    <Compile Include="Controllers\Api\TapBeersController.cs" />
     <Compile Include="Controllers\BarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PatronController.cs" />
     <Compile Include="Controllers\RoutedEventArgs.cs" />
+    <Compile Include="Dtos\BarDto.cs" />
     <Compile Include="Dtos\PatronDto.cs" />
+    <Compile Include="Dtos\SpecialDto.cs" />
+    <Compile Include="Dtos\TapBeerDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -303,6 +308,10 @@
     <Compile Include="Migrations\201702171733072_update beerlist.Designer.cs">
       <DependentUpon>201702171733072_update beerlist.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702181439015_dattimenullable.cs" />
+    <Compile Include="Migrations\201702181439015_dattimenullable.Designer.cs">
+      <DependentUpon>201702181439015_dattimenullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Min21ToSignUp.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -326,6 +335,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BarDashboardViewModel.cs" />
     <Compile Include="ViewModels\BarGamesAndSportsViewModel.cs" />
+    <Compile Include="ViewModels\BarSpecialsViewModel.cs" />
     <Compile Include="ViewModels\HoursOfOperationViewModel.cs" />
     <Compile Include="ViewModels\RegisterBarViewModel.cs" />
     <Compile Include="ViewModels\RegisterPatronViewModel.cs" />
@@ -354,6 +364,8 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -419,6 +431,7 @@
     <Content Include="Views\Account\RegisterBar.cshtml" />
     <Content Include="Views\Bar\AddBarGamesAndSports.cshtml" />
     <Content Include="Views\Bar\HoursOfOperation.cshtml" />
+    <Content Include="Views\Bar\AddSpecial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -490,6 +503,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702171733072_update beerlist.resx">
       <DependentUpon>201702171733072_update beerlist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702181439015_dattimenullable.resx">
+      <DependentUpon>201702181439015_dattimenullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

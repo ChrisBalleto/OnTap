@@ -6,7 +6,9 @@
 
 
 <h2>Hours</h2>
-    <table class="table table-condensed table-hover">
+@using (Html.BeginForm("HoursOfOperation", "Bar", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <table class="table table-condensed">
         <thead>
             <tr>
                 <th>Day</th>
@@ -14,23 +16,50 @@
                 <th>@Html.LabelFor(m => m.HoursOfOperation.CloseTime)</th>
         </thead>
         <tbody>
-            @{var i = 0;}
-            @foreach (var day in Model.DayOfWeeks)
-            {
+            <tr>
+                <td>Sunday</td>
+                <td> @Html.TextBoxFor(m => m.SundayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                <td> @Html.TextBoxFor(m => m.SundayClose, "{0:HH:mm}",new { @class = "form-control", @type = "time" })</td>
+            </tr>
                 <tr>
-                    <td name="day_@i" value="@day.Id">@day.DayOfWeekName </td>
-                    <td > <input id="Title" name="openTime_@i" type="time" value="" /></td>
-                    <td > <input id="Title" name="closeTime_@i" type="time" value="" /></td>
+                    <td>Monday</td>
+                    <td> @Html.TextBoxFor(m => m.MondayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                    <td> @Html.TextBoxFor(m => m.MondayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
                 </tr>
-                            i++;
-                        }
+            <tr>
+                <td>Tuesday</td>
+                <td> @Html.TextBoxFor(m => m.TuesdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                <td> @Html.TextBoxFor(m => m.TuesdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+            </tr>
+            <tr>
+                <td>Wednesday</td>
+                <td> @Html.TextBoxFor(m => m.WednesdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                <td> @Html.TextBoxFor(m => m.WednesdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+            </tr>
+            <tr>
+                <td>Thursday</td>
+                <td> @Html.TextBoxFor(m => m.ThursdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                <td> @Html.TextBoxFor(m => m.ThursdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+            </tr>
+            <tr>
+                <td>Friday</td>
+                <td> @Html.TextBoxFor(m => m.FridayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                <td> @Html.TextBoxFor(m => m.FridayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+            </tr>
+            <tr>
+                <td>Saturday</td>
+                <td> @Html.TextBoxFor(m => m.SaturdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                <td> @Html.TextBoxFor(m => m.SaturdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+            </tr>
         </tbody>
     </table>
+    @Html.HiddenFor(m => m.Bar.Id)
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        <input id ="addHoursToBar" type="submit" class="btn btn-default" value="Add" />
+        <input type="submit" class="btn btn-default" value="Add" />
     </div>
 </div>
+}
 
 
 
@@ -41,7 +70,7 @@
     var closeHours = [];
 
     $('#addHoursToBar').on("click", function () {
-        days = [];
+        vadays = [];
         openHours = [];
         closeHours = [];
         getDaysToList();

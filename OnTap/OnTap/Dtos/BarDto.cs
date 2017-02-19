@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using OnTap.Models;
 
-namespace OnTap.Models
+namespace OnTap.Dtos
 {
-    public class Bar
+    public class BarDto
     {
-        public Bar()
+        public BarDto()
         {
             HoursOfOperations = new List<HoursOfOperation>();
             BarReviews = new List<Review>();
@@ -86,8 +87,5 @@ namespace OnTap.Models
         public virtual ICollection<BarGame> BarGames { get; set; }
         public virtual ICollection<TapBeer> TapBeers { get; set; }
         public virtual ICollection<SportsPackage> SportsPackages { get; set; }
-
-
-
     }
 }
