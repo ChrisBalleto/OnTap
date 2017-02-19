@@ -23,6 +23,14 @@ namespace OnTap.App_Start
             Mapper.CreateMap<TapBeer, TapBeerDto>()
                 .ForMember(m => m.Id, opt => opt.Ignore());
             Mapper.CreateMap<TapBeerDto, TapBeer>();
+
+            Mapper.CreateMap<SportsPackage, SportsPackageDto>()
+                .ForMember(m => m.Id, opt => opt.Ignore());
+            Mapper.CreateMap<SportsPackageDto, SportsPackage>();
+
+            Mapper.CreateMap<BarGame, BarGameDto>()
+                .ForMember(m => m.Id, opt => opt.Ignore());
+            Mapper.CreateMap<BarGameDto, BarGame>();
         }
     }
 }

@@ -32,7 +32,13 @@ namespace OnTap.Controllers
         public ActionResult AddBeerToBar(int id)
         {
             var bar = _context.Bars.Include(b => b.TapBeers).SingleOrDefault(c => c.Id == id);
-            return View(bar);
+            var viewModel = new AddTapBeerViewModel
+            {
+                Bar = bar,
+                TapBeers = bar.TapBeers,
+            };
+            
+            return View(viewModel);
         }
 
         public ActionResult BarDashboard(int id)
@@ -42,23 +48,31 @@ namespace OnTap.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddBeerToBar(int id, List<string> beers)
+        public ActionResult AddBeerToBar(int id, List<string> beers, List<string> beerNames, List<string> beerDescs, List<string> beerAbvs, List<string> beerImgs)
         {
             var bar = _context.Bars.SingleOrDefault(c => c.Id == id);
 
-            foreach (var beer in beers)
+            for(int i = 0; i < beers.Count;i++)
             {
                 var tapBeer = new TapBeer
                 {
-                    
-                    BreweryDatabaseId = beer,
+
+                    BreweryDatabaseId = beers[i],
+                    Name = beerNames[i],
+                    Description = beerDescs[i],
+                    Abv = beerAbvs[i],
+                    ImageLink = beerImgs[i],
                 };
                 tapBeer.Bars.Add(bar);
                 bar.TapBeers.Add(tapBeer);
                 _context.TapBeers.Add(tapBeer);
                 _context.SaveChanges();
             }
-            return View("BarDashboard","Bar", id);
+
+            var redirectUrl = new UrlHelper(Request.RequestContext).Action("AddBeerToBar", "Bar", new { Id = bar.Id });
+            return Json(new { Url = redirectUrl });
+
+            return View("AddBeerToBar","Bar", id);
         }
 
         public ActionResult AddSpecial(int id)

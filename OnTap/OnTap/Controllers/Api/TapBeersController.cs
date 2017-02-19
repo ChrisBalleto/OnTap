@@ -28,7 +28,7 @@ namespace OnTap.Controllers.Api
             var tapBeer = _context.TapBeers.SingleOrDefault(c => c.Id == id);
 
             if (tapBeer == null)
-                return NotFound();
+                return NotFound();  
 
             return Ok(Mapper.Map<TapBeer, TapBeerDto>(tapBeer));
         }

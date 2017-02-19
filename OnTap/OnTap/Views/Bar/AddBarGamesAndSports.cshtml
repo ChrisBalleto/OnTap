@@ -4,5 +4,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Tell Us More About The Bar</h2>
+<h2>Current Bar Games and Sports Packages</h2>
+@if (!Model.Bar.TapBeers.Any() || !Model.Bar.TapBeers.Any())
+{
+    <text>Sorry, you currently have no Games or Sports Packages</text>
+}
+else
+{
+    @Html.Partial("_barsBeers", Model)
+
+}
 

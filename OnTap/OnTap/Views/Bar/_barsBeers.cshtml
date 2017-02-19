@@ -1,0 +1,20 @@
+﻿<table id="tapBeers" class="table table-condensed table-responsive">
+    <thead size="5">
+        <tr size="5">
+            <th size="5">Beer Name</th>
+            <th size="5">Delete?</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tapBeer in Model.TapBeers)
+            {
+            <tr>
+                <td>@tapBeer.Name</td>
+                <td>
+                    <button data-special-id="@tapBeer.Id" class="btn btn-link js-delete">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

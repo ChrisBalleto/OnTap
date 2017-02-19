@@ -1,9 +1,18 @@
-﻿@model OnTap.Models.Bar
+﻿@model OnTap.ViewModels.AddTapBeerViewModel
 @{
     ViewBag.Title = "AddBeerToBar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<h2>Current Tap Beers</h2>
+@if (!Model.TapBeers.Any())
+{
+    <text>Sorry, you currently have no Tap Beers</text>
+}
+else
+{
+    @Html.Partial("_barsBeers", Model)
+    
+}
 <h2>Beer Search</h2>
 
 
@@ -11,7 +20,7 @@
         <label>Beer Search</label>
         <input id="beer"type="text" value="" class="form-control" />
     </div>
-    <button id="search" class="btn btn-primary">Submit</button>
+    <button id="search" class="btn btn-primary btn-block">Search Beers</button>
     
     <table id="beers" class="table table-condensed table-hover .table-bordered" border-color='white'>
         <thead>
@@ -27,13 +36,10 @@
             <tr></tr>
         </tbody>
     </table>
-    @*@using (Html.BeginForm("AddBeerToBar", "Bar", FormMethod.Post, new { @class = "form-horizontal", roll = "form" }))*@
-    
         <div class="form-group">
             <table id="beersToAdd" class="table table-condensed table-hover .table-bordered" border-color='white'>
                 <thead>
                     <tr>
-
                         <th>Beer(s) to Add</th>
                         <th></th>
                     </tr>
@@ -55,81 +61,131 @@
 
 
 
-            <script>
-                var $beers = $('#beers');
-                var $beersToAdd = $('#beersToAdd');
-                var idsToAdd = [];
+<script>
+
+
+    $(document).ready(function () {
 
 
 
 
-                function appendBeerList(beerName, beerId) {
-                    beerId = $(beerId)[0].innerHTML;
-                    idsToAdd.push(beerId)
-                    beerName = $(beerName)[0].innerHTML;
-                    var i = idsToAdd.length - 1;
-                    $beersToAdd.append('<tr><td name="row' + i + '">' + beerName + '</td>'
-                        + '<td type=\"text\" style="display:none;" name="beers[' + i + ']">' + beerId + '</td></tr>');
-                }
-                $('#addBeersToBeerList').on("click", function () {
+
+
+
+        $('#tapBeers .js-delete').on('click', function () {
+            var button = $(this);
+            bootbox.confirm("Are you sure you want to delete beer?", function (result) {
+                if (result) {
                     $.ajax({
-                        'type': 'POST',
-                        'url': 'AddBeerToBar',
-                        'data': {
-                             'id': @Model.Id,
-                            'beers':idsToAdd,
+                        url: "../../api/tapbeers/" + button.attr("data-special-id"),
+                        method: "DELETE",
+                        success: function () {
+                            button.parents("tr").remove();
+                            console.log("SUCCESS")
                         }
-                    })
-                });
-
-
-
-                $("#search").on("click", function () {
-                    $("#beers tr ").remove();
-                    var beer = $("#beer").val();
-                    var yql_url = 'https://query.yahooapis.com/v1/public/yql';
-                    var url = 'http://myservice.com/data.json';
-                    var urlStart = "http://api.brewerydb.com/v2/search?q=";
-                    var urlEnd = "&type=beer&key=0e3a7f468215ab0e24feb0175501b49b";
-                    var searchUrl = getUrl(beer, urlStart, urlEnd);
-                    $.ajax({
-                        'url': yql_url,
-                        'data': {
-                            'q': 'SELECT * FROM json WHERE url="' + searchUrl + '"',
-                            'format': 'json',
-                            'jsonCompat': 'new',
-                        },
-                        'dataType': 'jsonp',
-                        'success': function (response) {
-                            showResults(response);
-                            console.log(response);
-                        },
                     });
-                });
-
-                function showResults(results) {
-                    var results = results.query.results.json.data;
-                    var iterations = 5;
-                    if (results.length < iterations) {
-                        iterations = results.length;
-                    }
-                    for (var i = 0; i < iterations; i++) {
-                        $beers.append('<tr id="beerRow' + i + '"><td style="display:none;" id="beerId' + i + '">' + results[i].id + '</td>'
-                            + '<td><button class="btn-link js-add"  onclick="appendBeerList(\'#beerName' + i + '\', \'#beerId' + i + '\' )">Add Beer</button></td>'
-                        + '<td><img height="75"src=' + (results[i].labels === undefined ? "../../Content/nophoto.png" : results[i].labels.medium) + ' alt="" border=3 height=100 width=100></img></td>'
-                        + '<td id="beerName' + i + '">' + results[i].name + '</td>'
-                        + '<td>' + results[i].abv + ' </td>'
-                        + '<td>' + results[i].description + ' </td></tr>'
-                        );
-                    }
                 }
+            });
+        });
+    });
 
-                function getUrl(beer, urlStart, urlEnd) {
-                    parsedUrl = '';
-                    beer = beer.replace(" ", "+");
-                    parsedUrl = urlStart + beer + urlEnd;
-                    return parsedUrl;
-                }
+    var $beers = $('#beers');
+    var $beersToAdd = $('#beersToAdd');
+    var idsToAdd = [];
+    var beerNamesToAdd = [];
+    var beerDescsToAdd = [];
+    var beerImgsToAdd = [];
+    var beerAbvsToAdd =[];
 
 
-            </script>
+
+
+    function appendBeerList(beerName, beerId, beerAbv, beerDesc, beerImg) {
+        beerId = $(beerId)[0].innerHTML;
+        idsToAdd.push(beerId);
+        beerName = $(beerName)[0].innerHTML;
+        beerNamesToAdd.push(beerName);
+        beerAbv = $(beerAbv)[0].innerHTML;
+        beerAbvsToAdd.push(beerAbv);
+        beerDesc = $(beerDesc)[0].innerHTML;
+        beerDescsToAdd.push(beerDesc);
+        beerImg = $(beerImg)[0].firstChild.getAttribute("src");
+        beerImgsToAdd.push(beerImg);
+        var i = idsToAdd.length - 1;
+        $beersToAdd.append('<tr><td name="row' + i + '">' + beerName + '</td>'
+            + '<td type=\"text\" style="display:none;" name="beers[' + i + ']">' + beerId + '</td></tr>');
+    }
+    $('#addBeersToBeerList').on("click", function () {
+        var id = @Model.Bar.Id;
+        $.ajax({
+            'type': 'POST',
+            'url': '../AddBeerToBar',
+            'data': {
+                    'id': @Model.Bar.Id,
+                'beers':idsToAdd,
+                'beerNames':beerNamesToAdd,
+                'beerDescs':beerDescsToAdd,
+                'beerImgs':beerImgsToAdd,
+                'beerAbvs':beerAbvsToAdd,
+            },
+
+            success: function (response) {
+                window.location.href = response.Url;
+            },
+            error: function () {
+            }
+
+        })
+    });
+
+
+
+
+    $("#search").on("click", function () {
+        var beer = $("#beer").val();
+        var yql_url = 'https://query.yahooapis.com/v1/public/yql';
+        var url = 'http://myservice.com/data.json';
+        var urlStart = "http://api.brewerydb.com/v2/search?q=";
+        var urlEnd = "&type=beer&key=0e3a7f468215ab0e24feb0175501b49b";
+        var searchUrl = getUrl(beer, urlStart, urlEnd);
+        $.ajax({
+            'url': yql_url,
+            'data': {
+                'q': 'SELECT * FROM json WHERE url="' + searchUrl + '"',
+                'format': 'json',
+                'jsonCompat': 'new',
+            },
+            'dataType': 'jsonp',
+            'success': function (response) {
+                showResults(response);
+                console.log(response);
+            },
+        });
+    });
+
+    function showResults(results) {
+        var results = results.query.results.json.data;
+        var iterations = 5;
+        if (results.length < iterations) {
+            iterations = results.length;
+        }
+        for (var i = 0; i < iterations; i++) {
+            $beers.append('<tr id="beerRow' + i + '"><td style="display:none;" id="beerId' + i + '">' + results[i].id + '</td>'
+                + '<td><button class="btn-link js-add"  onclick="appendBeerList(\'#beerName' + i + '\', \'#beerId' + i + '\',\'#beerAbv' + i + '\',\'#beerDesc' + i + '\',\'#beerImg' + i + '\' )">Add Beer</button></td>'
+            + '<td id="beerImg' + i + '"><img height="50" width="50" src=' + (results[i].labels === undefined ? "../../Content/nophoto.png" : results[i].labels.medium) + ' alt="" border=3 height=100 width=100></img></td>'
+            + '<td id="beerName' + i + '">' + results[i].name + '</td>'
+            + '<td id="beerAbv' + i + '">' + results[i].abv + ' </td>'
+            + '<td id="beerDesc' + i + '">' + results[i].description + ' </td></tr>'
+            );
+        }
+    }
+
+    function getUrl(beer, urlStart, urlEnd) {
+        parsedUrl = '';
+        beer = beer.replace(" ", "+");
+        parsedUrl = urlStart + beer + urlEnd;
+        return parsedUrl;
+    }
+
+
+</script>
