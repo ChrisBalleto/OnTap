@@ -149,7 +149,7 @@ namespace OnTap.Controllers
             bar.FeedMessages.Add(message);
             _context.SaveChanges();
 
-            return RedirectToAction("BarMessageFeed", "Bar");
+            return RedirectToAction("BarDashboard", "Bar");
         }
         [HttpPost]
         public ActionResult RemoveMessage(int id, int id2)
@@ -159,7 +159,7 @@ namespace OnTap.Controllers
             bar.FeedMessages.Remove(message);
             _context.SaveChanges();
 
-            var redirectUrl = new UrlHelper(Request.RequestContext).Action("BarMessageFeed", "Bar", new { Id = id2 });
+            var redirectUrl = new UrlHelper(Request.RequestContext).Action("BarDashboard", "Bar", new { Id = id2 });
             return Json(new { Url = redirectUrl });
         }
 

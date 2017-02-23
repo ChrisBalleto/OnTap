@@ -15,10 +15,27 @@
                     }
                     <img src="@imgUrl" style='height: 100%; width: 100%; object-fit: contain' />
                 </div>
-
                 <div class="panel-body">
                     Address: @Model.Bar.StreetOne @Model.Bar.City.CityName @Model.Bar.State.StateName
                 </div>
+                <div class="panel-body">
+                    Rating: @Model.Bar.Rating
+                </div>
+                @*@if (User.IsInRole("Patron"))
+                {
+                    @if (!Model.Patron.FollowedBars.Contains(bar))
+                {
+                        <div>
+                            @Html.ActionLink("Follow", "FollowBar", "Patron", new { id = bar.Id }, new { @class = "btn btn-success" })
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            @Html.ActionLink("Unfollow", "UnFollowBar", "Patron", new { id = bar.Id }, new { @class = "btn btn-danger" })
+                        </div>
+                    }
+                }*@
                 <bold>
                     <div class="panel-body">
                         @Model.Bar.BarDescription
@@ -38,6 +55,16 @@
                         }
                     </ul>
                 </div>
+
+                <div class="panel-heading">
+                    <h5>Wifi/Jukebox</h5>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>JukeBox: @Model.Bar.GetJukeboxYesNo</li>
+                        <li>Wifi: @Model.Bar.GetWifiYesNo</li>
+                    </ul>
+                </div>
                 <div class="panel-heading">
                     <h5>Bar Games</h5>
                 </div>
@@ -52,30 +79,30 @@
                     </ul>
                 </div>
                 <div class="panel-heading">
-                <h5>Sports Packages</h5>
-            </div>
-            <div class="panel-body">
-                <ul>
-                    @foreach (var package in @Model.Bar.SportsPackages)
-                    {
-                        <li>
-                            @package.PackageName
-                        </li>
-                    }
-                </ul>
-            </div>
+                    <h5>Sports Packages</h5>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        @foreach (var package in @Model.Bar.SportsPackages)
+                        {
+                            <li>
+                                @package.PackageName
+                            </li>
+                        }
+                    </ul>
+                </div>
 
             </div>
         </div>
-        <div class="col-lg-9 " >
+        <div class="col-lg-9 ">
             <div class="panel panel-warning">
                 @if (Model.Bar.Specials.Any())
             {
                     <h3>Specials</h3>
-                    <table id="followedBarsSpecials" class="table table-condensed panel  panel-warning" style="margin-bottom: 20px; border:none;">
+                    <table id="followedBarsSpecials" class="table table-condensed panel  panel-warning" style="margin-bottom: 15px; border:none;">
                         <thead class="panel-heading panel-warning">
                             <tr size="5">
-                                <th size="5">Bar</th>
+                                @*<th size="5">Bar</th>*@
                                 <th size="5">Day</th>
                                 <th size="5">Special</th>
                             </tr>
@@ -84,7 +111,7 @@
                             @foreach (var special in Model.Bar.GetSpecials)
                             {
                                 <tr>
-                                    <td>@special.Bar.BarName</td>
+                                    @*<td>@special.Bar.BarName</td>*@
                                     <td>@special.DayOfWeek.DayOfWeekName</td>
                                     <td>@special.SpecialDescription</td>
                                 </tr>
@@ -95,11 +122,11 @@
             </div>
         </div>
         <div class="col-lg-9">
-            <div class="panel panel-warning" style="margin-bottom: 20px;">
+            <div class="panel panel-warning" style="margin-top: 10px;">
                 @if (Model.Bar.TapBeers.Any())
             {
                     <h3>Tap Beers</h3>
-                    <table id="beers" class="table table-condensed panel-warning .table-bordered" style="margin-bottom: 20px;">
+                    <table id="beers" class="table table-condensed panel-warning .table-bordered">
                         <thead class="panel-heading panel-warning">
                             <tr>
                                 <th>Label</th>
@@ -124,81 +151,126 @@
             </div>
         </div>
         @*<div class="col-lg-4">
-            <div class="panel panel-warning ">
-                <div class="panel-heading">
-                    <h5>Bar Games</h5>
-                </div>
-                <div class="panel-body">
-                    <ul>
-                        @foreach (var game in @Model.Bar.BarGames)
-                        {
-                        <li>
-                            @game.GameName
-                        </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="panel panel-warning ">
-                <div class="panel-heading">
-                    <h5>Sports Packages</h5>
-                </div>
-                <div class="panel-body">
-                    <ul>
-                        @foreach (var package in @Model.Bar.SportsPackages)
-                        {
-                        <li>
-                            @package.PackageName
-                        </li>
-                        }
-                    </ul>
+                <div class="panel panel-warning ">
+                    <div class="panel-heading">
+                        <h5>Bar Games</h5>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            @foreach (var game in @Model.Bar.BarGames)
+                            {
+                            <li>
+                                @game.GameName
+                            </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>*@
+            <div class="col-lg-4">
+                <div class="panel panel-warning ">
+                    <div class="panel-heading">
+                        <h5>Sports Packages</h5>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            @foreach (var package in @Model.Bar.SportsPackages)
+                            {
+                            <li>
+                                @package.PackageName
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>*@
     </div>
     <div class="row">
-        
-
-        <div class="row">
-            <h3>Bar Feed</h3>
-
-
-            @if (!Model.Bar.FeedMessages.Any())
+        <div class="col-lg-3">
+            @using (Html.BeginForm("BarMessageFeed", "Bar", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
-                <text>You have no messages</text>
+                <h4>New Message</h4>
+                <div class="form-group ">
+                    <label> Subject </label>
+                    @Html.TextBoxFor(m => m.FeedMessage.Subject, new { @class = "form-control" })
+                </div>
+                <div class="form-group ">
+                    <label> Message </label>
+                    @Html.TextAreaFor(m => m.FeedMessage.Content, new { @class = "form-control", rows = 3 })
+                </div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default form" value="Send" />
+                </div>
+                @Html.HiddenFor(m => m.Bar.Id)
             }
-            else
+        </div>
+        <div class="col-lg-9">
+            <div class="panel panel-warning" style="margin-top: 10px;">
+                <h3>Bar Feed</h3>
+
+
+                @if (!Model.Bar.FeedMessages.Any())
             {
-                <table id="barGames" class="table table-condensed panel panel-warning">
-                    <thead class="panel-heading">
-                        <tr size="5">
-                            <th size="5">Posted</th>
-                            <th size="5">From</th>
-                            <th size="5">Subject</th>
-                            <th size="5">Message</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var message in Model.Bar.GetFeedMessages)
-                        {
-                            <tr>
-                                <td>@message.Created</td>
-                                <td>@message.FromName</td>
-                                <td>@message.Subject</td>
-                                <td>@message.Content</td>
+                    <text>You have no messages</text>
+                }
+                else
+                {
+                    @Html.Partial("_barsFeed", Model)
+                    <table id="feedMessages" class="table table-condensed table-responsive panel  panel-warning" style="margin-bottom: 15px; border:none;">
+                        <thead size="5" class="panel-heading panel-warning">
+                            <tr size="5">
+                                <th>Post Date</th>
+                                <th>Subject</th>
+                                <th size="5">Message</th>
+                                <th size="5">Delete?</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-            }
+                        </thead>
+                        <tbody>
+                            @foreach (var message in Model.Bar.FeedMessages)
+                            {
+                                <tr>
+                                    <td>@message.Created</td>
+                                    <td>@message.Subject</td>
+                                    <td>@message.Content</td>
+                                    <td>
+                                        <button data-message-id="@message.Id" data-bar-id="@Model.Bar.Id" class="btn btn-link js-delete">Delete</button>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
         </div>
     </div>
 
     <script>
         $(document).ready(function () {
-            $('#beers').DataTable();
-        }
+            $('#beers').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+            });
+
+            $('#feedMessages').on('click', '.js-delete', function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure you want to delete message?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            'url': '../Bar/RemoveMessage',
+                            method: "POST",
+                            data:{
+                                'id': button.attr("data-message-id"),
+                                'id2': @Model.Bar.Id,
+                            },
+                            success: function (response) {
+                                button.parents("tr").remove();
+                                console.log("SUCCESS")
+                                window.location.href = response.Url;
+                            }
+                        });
+                    }
+                });
+            });
+        });
     </script>
 

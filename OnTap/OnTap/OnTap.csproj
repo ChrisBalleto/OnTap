@@ -663,6 +663,7 @@
     <Content Include="Views\Patron\SearchBars.cshtml" />
     <Content Include="Views\Patron\EditPatron.cshtml" />
     <Content Include="Views\Bar\EditBar.cshtml" />
+    <Content Include="Views\Patron\PatronViewOfBarDash.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

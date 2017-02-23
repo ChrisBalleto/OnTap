@@ -6,8 +6,9 @@ using OnTap.Models;
 
 namespace OnTap.ViewModels
 {
-    public class BarDashboardViewModel
+    public class PatronViewOfBarDashViewModel
     {
+        public Patron Patron { get; set; }
         public Bar Bar { get; set; }
         public FeedMessage FeedMessage { get; set; }
         public List<Models.DayOfWeek> DayOfWeeks { get; set; }

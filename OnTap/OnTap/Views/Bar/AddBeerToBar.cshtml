@@ -17,7 +17,6 @@ else
 
 
     <div class="form-group">
-        <label>Beer Search</label>
         <input id="beer"type="text" value="" class="form-control" />
     </div>
     <button id="search" class="btn btn-primary btn-block">Search Beers</button>
@@ -119,7 +118,7 @@ else
         var id = @Model.Bar.Id;
         $.ajax({
             'type': 'POST',
-            'url': '../Bar/AddBeerToBar',
+            'url': '../AddBeerToBar',
             'data': {
                     'id': @Model.Bar.Id,
                 'beers':idsToAdd,
