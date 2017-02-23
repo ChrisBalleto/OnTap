@@ -219,7 +219,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PatronController.cs" />
     <Compile Include="Controllers\RoutedEventArgs.cs" />
-    <Compile Include="Controllers\SportsPackagesController.cs" />
     <Compile Include="Dtos\BarDto.cs" />
     <Compile Include="Dtos\BarGameDto.cs" />
     <Compile Include="Dtos\PatronDto.cs" />
@@ -321,6 +320,30 @@
     <Compile Include="Migrations\201702191937291_seedbargamefoosball.Designer.cs">
       <DependentUpon>201702191937291_seedbargamefoosball.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702201651023_chagnedmessagefom.cs" />
+    <Compile Include="Migrations\201702201651023_chagnedmessagefom.Designer.cs">
+      <DependentUpon>201702201651023_chagnedmessagefom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702201721537_check.cs" />
+    <Compile Include="Migrations\201702201721537_check.Designer.cs">
+      <DependentUpon>201702201721537_check.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702212244536_addedgetparsedaddress.cs" />
+    <Compile Include="Migrations\201702212244536_addedgetparsedaddress.Designer.cs">
+      <DependentUpon>201702212244536_addedgetparsedaddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702221843182_streetonetwobarswapandBarName.cs" />
+    <Compile Include="Migrations\201702221843182_streetonetwobarswapandBarName.Designer.cs">
+      <DependentUpon>201702221843182_streetonetwobarswapandBarName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702222038286_addedbardescription.cs" />
+    <Compile Include="Migrations\201702222038286_addedbardescription.Designer.cs">
+      <DependentUpon>201702222038286_addedbardescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702230216511_descriptionofBar.cs" />
+    <Compile Include="Migrations\201702230216511_descriptionofBar.Designer.cs">
+      <DependentUpon>201702230216511_descriptionofBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Min21ToSignUp.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -346,17 +369,25 @@
     <Compile Include="ViewModels\BarDashboardViewModel.cs" />
     <Compile Include="ViewModels\BarGamesAndSportsViewModel.cs" />
     <Compile Include="ViewModels\BarSpecialsViewModel.cs" />
+    <Compile Include="ViewModels\BarMessageFeedViewModel.cs" />
     <Compile Include="ViewModels\HoursOfOperationViewModel.cs" />
+    <Compile Include="ViewModels\PatronDashboardViewModel.cs" />
+    <Compile Include="ViewModels\PatronMessageFeedViewModel.cs" />
     <Compile Include="ViewModels\RegisterBarViewModel.cs" />
     <Compile Include="ViewModels\RegisterPatronViewModel.cs" />
     <Compile Include="ViewModels\RoleViewModel.cs" />
+    <Compile Include="ViewModels\SearchBarsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\beertaps.jpg" />
     <Content Include="Content\bootstrap-superhero.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap-cyborg.css" />
+    <Content Include="Content\images\bluedart.png" />
+    <Content Include="Content\images\DartBoardOnRight.jpg" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.dataTables.css" />
@@ -464,7 +495,17 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
-    <Content Include="Content\nophoto.png" />
+    <Content Include="Content\images\download.jpeg" />
+    <Content Include="Content\images\image.jpg" />
+    <Content Include="Content\images\image2.jpg" />
+    <Content Include="Content\images\LakefrontTaps.jpg" />
+    <Content Include="Content\images\nophoto.png" />
+    <Content Include="Content\images\OnTap-Logo-Final-Inverted.png" />
+    <Content Include="Content\images\OnTap-Logo-Final.png" />
+    <Content Include="Content\images\OnTap-Logo-Final2.png" />
+    <Content Include="Content\images\OnTap-Logomiddlle copy.png" />
+    <Content Include="Content\images\OnTap-Logomiddlle.png" />
+    <Content Include="Content\images\randombeertaps.jpg" />
     <Content Include="Content\typeahead.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -607,7 +648,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\ChooseRole.cshtml" />
-    <Content Include="Views\Patron\NewPatronBasicInfo.cshtml" />
     <Content Include="Views\Bar\RegisterBar.cshtml" />
     <Content Include="Views\Bar\AddBeerToBar.cshtml" />
     <Content Include="Views\Bar\BarDashboard.cshtml" />
@@ -617,9 +657,16 @@
     <Content Include="Views\Bar\AddSpecial.cshtml" />
     <Content Include="Views\Bar\_barsBeers.cshtml" />
     <Content Include="Views\Bar\_barsGamesAndSports.cshtml" />
+    <Content Include="Views\Bar\BarMessageFeed.cshtml" />
+    <Content Include="Views\Bar\_barsFeed.cshtml" />
+    <Content Include="Views\Patron\PatronDashboard.cshtml" />
+    <Content Include="Views\Patron\SearchBars.cshtml" />
+    <Content Include="Views\Patron\EditPatron.cshtml" />
+    <Content Include="Views\Bar\EditBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\images\profile\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -694,6 +741,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702191937291_seedbargamefoosball.resx">
       <DependentUpon>201702191937291_seedbargamefoosball.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702201651023_chagnedmessagefom.resx">
+      <DependentUpon>201702201651023_chagnedmessagefom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702201721537_check.resx">
+      <DependentUpon>201702201721537_check.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702212244536_addedgetparsedaddress.resx">
+      <DependentUpon>201702212244536_addedgetparsedaddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702221843182_streetonetwobarswapandBarName.resx">
+      <DependentUpon>201702221843182_streetonetwobarswapandBarName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702222038286_addedbardescription.resx">
+      <DependentUpon>201702222038286_addedbardescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702230216511_descriptionofBar.resx">
+      <DependentUpon>201702230216511_descriptionofBar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

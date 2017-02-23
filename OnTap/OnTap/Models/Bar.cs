@@ -14,6 +14,7 @@ namespace OnTap.Models
             BarReviews = new List<Review>();
             FeedMessages = new List<FeedMessage>();
             Specials = new List<Special>();
+            Followers = new List<Patron>();
             this.BarGames = new HashSet<BarGame>();
             this.TapBeers = new HashSet<TapBeer>();
             this.SportsPackages = new HashSet<SportsPackage>();
@@ -37,17 +38,22 @@ namespace OnTap.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Display(Name = "Bar Description")]
+        public string BarDescription { get; set; }
+
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
         public RoleName RoleName { get; set; }
         public int RoleNameId { get; set; }
 
+        [Display(Name = "Bar Name")]
         public string BarName { get; set; }
 
-        [Display(Name = "Street Two")]
+        [Display(Name = "Street One")]
         public string StreetOne { get; set; }
 
-        [Display(Name = "Street One")]
+        [Display(Name = "Street Two")]
         public string StreetTwo { get; set; }
 
         public City City { get; set; }
@@ -74,9 +80,31 @@ namespace OnTap.Models
 
         public List<string> BeerIdList { get; set; }
 
+        public string ParsedAddress { get; set; }
+
+        public string GetParsedAddress
+        {
+            get { return (StreetOne + StreetTwo + ",+").Replace(" ", "+").ToString(); }
+        }
+
+        public IEnumerable<FeedMessage> GetFeedMessages
+        {
+            get { return FeedMessages.OrderBy(t => t.Created); }
+        }
+
         public IEnumerable<Special> GetSpecials
         {
             get { return Specials.OrderBy(t => t.DayOfWeekId); }
+        }
+
+        public string GetJukeboxYesNo
+        {
+            get { return this.HasJukebox ? "Yes" : "No"; }
+        }
+
+        public string GetWifiYesNo
+        {
+            get { return this.HasWifi ? "Yes" : "No"; }
         }
 
         public virtual ICollection<HoursOfOperation> HoursOfOperations { get; set; }
@@ -86,6 +114,7 @@ namespace OnTap.Models
         public virtual ICollection<BarGame> BarGames { get; set; }
         public virtual ICollection<TapBeer> TapBeers { get; set; }
         public virtual ICollection<SportsPackage> SportsPackages { get; set; }
+        public virtual ICollection<Patron> Followers { get; set; }
 
 
 

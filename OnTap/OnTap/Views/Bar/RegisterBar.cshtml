@@ -27,6 +27,18 @@
         </div>
     </div>
     <hr />
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.Bar.HasWifi) Does your Bar have Wifi?
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.Bar.HasJukebox) Does your Bar have a Jukebox?
+        </label>
+    </div>
+
+    <hr />
     <h5>Address</h5>
     <div class="form-group">
         @Html.LabelFor(m => m.Bar.StreetOne, new { @class = "col-md-2 control-label" })

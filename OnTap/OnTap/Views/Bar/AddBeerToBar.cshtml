@@ -119,7 +119,7 @@ else
         var id = @Model.Bar.Id;
         $.ajax({
             'type': 'POST',
-            'url': '../AddBeerToBar',
+            'url': '../Bar/AddBeerToBar',
             'data': {
                     'id': @Model.Bar.Id,
                 'beers':idsToAdd,
@@ -172,7 +172,7 @@ else
         for (var i = 0; i < iterations; i++) {
             $beers.append('<tr id="beerRow' + i + '"><td style="display:none;" id="beerId' + i + '">' + results[i].id + '</td>'
                 + '<td><button class="btn-link js-add"  onclick="appendBeerList(\'#beerName' + i + '\', \'#beerId' + i + '\',\'#beerAbv' + i + '\',\'#beerDesc' + i + '\',\'#beerImg' + i + '\' )">Add Beer</button></td>'
-            + '<td id="beerImg' + i + '"><img height="50" width="50" src=' + (results[i].labels === undefined ? "../../Content/nophoto.png" : results[i].labels.medium) + ' alt="" border=3 height=100 width=100></img></td>'
+            + '<td id="beerImg' + i + '"><img height="50" width="50" src=' + (results[i].labels === undefined ? "../../Content/images/nophoto.png" : results[i].labels.medium) + ' alt="" border=3 height=100 width=100></img></td>'
             + '<td id="beerName' + i + '">' + results[i].name + '</td>'
             + '<td id="beerAbv' + i + '">' + results[i].abv + ' </td>'
             + '<td id="beerDesc' + i + '">' + results[i].description + ' </td></tr>'

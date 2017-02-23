@@ -12,6 +12,7 @@ using OnTap.Models;
 using OnTap.ViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 
+
 namespace OnTap.Controllers
 {
     [Authorize]
@@ -167,13 +168,11 @@ namespace OnTap.Controllers
             return View();
         }
 
-        
-        
-
-
-        
+        public ActionResult EditBar()
+        {
+            return View();
+        }
        
-
         [AllowAnonymous]
         public ActionResult RegisterBar(RoleViewModel model)
         {
@@ -200,7 +199,7 @@ namespace OnTap.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterBar(Bar bar)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && bar.Id == 0)
             {
                 var user = new ApplicationUser { UserName = bar.Email, Email = bar.Email };
                 var result = await UserManager.CreateAsync(user, bar.Password);
@@ -210,11 +209,13 @@ namespace OnTap.Controllers
                     var roleManager = new RoleManager<IdentityRole>(roleStore);
                     await roleManager.CreateAsync(new IdentityRole("Bar"));
                     await UserManager.AddToRoleAsync(user.Id, "Bar");
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);                  
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    
+                    _context.Bars.Add(bar);
                 }               
                 AddErrors(result);
             }
-            else
+            else if (!ModelState.IsValid)
             {
                 var viewModel = new RegisterBarViewModel
                 {
@@ -224,19 +225,12 @@ namespace OnTap.Controllers
                     States = _context.States.ToList(),
                     RoleNames = _context.RoleNames.ToList(),
                 };
-                return View("RegisterPatron", viewModel);
+                return View("RegisterBar", viewModel);
             }
-            if (bar.Id == 0)
-            {
-                _context.Bars.Add(bar);
-            }
-            else
+            else if (bar.Id != 0)
             {
                 var barInDb = _context.Bars.Single(c => c.Id == bar.Id);
                 barInDb.Email = bar.Email;
-                barInDb.Password = bar.Password;
-                barInDb.ConfirmPassword = bar.ConfirmPassword;
-                barInDb.RoleNameId = bar.RoleNameId;
                 barInDb.BarName = bar.BarName;
                 barInDb.StreetOne = bar.StreetOne;
                 barInDb.StreetTwo = bar.StreetTwo;
@@ -256,9 +250,11 @@ namespace OnTap.Controllers
                 barInDb.Rating = bar.Rating;
                 barInDb.RatingCount = bar.RatingCount;
             }
+            
+            
 
             _context.SaveChanges();
-            return RedirectToAction("", "Bar", bar);
+            return RedirectToAction("BarDashboard", "Bar");
         }
 
         [AllowAnonymous]
@@ -286,8 +282,7 @@ namespace OnTap.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterPatron(Patron patron)
         {
-
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && patron.Id == 0)
             {
                 var user = new ApplicationUser { UserName = patron.Email, Email = patron.Email };
                 var result = await UserManager.CreateAsync(user, patron.Password);
@@ -297,37 +292,16 @@ namespace OnTap.Controllers
                     var roleManager = new RoleManager<IdentityRole>(roleStore);
                     await roleManager.CreateAsync(new IdentityRole("Patron"));
                     await UserManager.AddToRoleAsync(user.Id, "Patron");
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    _context.Patrons.Add(patron);
 
-                    
                 }
                 
                 AddErrors(result);
             }
-            else
-            {
-                var viewModel = new RegisterPatronViewModel
-                {
-                    Patron = patron,
-                    ZipCodes = _context.ZipCodes.ToList(),
-                    Cities = _context.Cities.ToList(),
-                    States = _context.States.ToList(),
-                    RoleNames = _context.RoleNames.ToList(),
-                };
-                return View("RegisterPatron", viewModel);
-            }
-            if (patron.Id == 0)
-            {
-                _context.Patrons.Add(patron);
-            }
-            else
+            else if (patron.Id != 0)
             {
                 var patronInDb = _context.Patrons.Single(c => c.Id == patron.Id);
-                patronInDb.Email = patron.Email;
-                patronInDb.Password = patron.Password;
-                patronInDb.ConfirmPassword = patron.ConfirmPassword;
-                patronInDb.RoleNameId = patron.RoleNameId;
                 patronInDb.FirstName = patron.FirstName;
                 patronInDb.LastName = patron.LastName;
                 patronInDb.BirthDate = patron.BirthDate;
@@ -339,10 +313,23 @@ namespace OnTap.Controllers
                 patronInDb.PhoneNumber = patron.PhoneNumber;
                 patronInDb.FollowedBars = patron.FollowedBars;
                 patronInDb.BarReviews = patron.BarReviews;
-
+                patronInDb.ParsedAddress = (patron.StreetOne + patron.StreetTwo).Replace(" ", "+");
             }
+            else if (!ModelState.IsValid)
+            {
+                var viewModel = new RegisterPatronViewModel
+                {
+                    Patron = patron,
+                    ZipCodes = _context.ZipCodes.ToList(),
+                    Cities = _context.Cities.ToList(),
+                    States = _context.States.ToList(),
+                    RoleNames = _context.RoleNames.ToList(),
+                };
+                return View("RegisterPatron", viewModel);
+            }
+            
             _context.SaveChanges();
-            return RedirectToAction("PatronDashboard", "Patron", patron);
+            return RedirectToAction("PatronDashboard", "Patron");
         }
 
         //

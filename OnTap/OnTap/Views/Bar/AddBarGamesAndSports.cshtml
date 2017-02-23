@@ -4,14 +4,89 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Current Bar Games and Sports Packages</h2>
-@if (!Model.Bar.TapBeers.Any() || !Model.Bar.TapBeers.Any())
+
+@if (!Model.Bar.BarGames.Any() && !Model.Bar.SportsPackages.Any())
 {
-    <text>Sorry, you currently have no Games or Sports Packages</text>
+    <text>This bar currently has no Games or Sports Packages</text>
 }
 else
 {
-    @Html.Partial("_barsBeers", Model)
+    @Html.Partial("_barsGamesAndSports", Model)
 
 }
+<h3>Add Bar Game</h3>
+@using (Html.BeginForm("AddBarGamesAndSports", "Bar", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+        <div class="form-group ">
+            <label> Games </label>
+            @Html.DropDownListFor(m => m.BarGame.Id, new SelectList(Model.BarGames, "Id", "GameName"), "Select Game", new { @class = "form-control" })
+        </div>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Add Game" />
+        </div>  
 
+
+<h3>Add Sports Packages</h3>
+
+        <div class="form-group ">
+            <label> Packages </label>
+            @Html.DropDownListFor(m => m.SportsPackage.Id, new SelectList(Model.SportsPackages, "Id", "PackageName"), "Select Package", new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Add Package" />
+            </div>
+        </div>
+
+@Html.HiddenFor(m => m.Bar.Id)
+}
+
+
+
+@section scripts{
+<script>
+    $(document).ready(function () {
+        $('#barGames').on('click', '.js-delete', function () {
+            var button = $(this);
+            bootbox.confirm("Are you sure you want to delete bar game?", function (result) {
+                if (result) {
+                    $.ajax({
+                        'url': '../RemoveBarGame',
+                        method: "POST",
+                        data:{
+                            'id': button.attr("data-game-id"),
+                            'id2': @Model.Bar.Id,
+                        },
+                        success: function (response) {
+                            button.parents("tr").remove();
+                            console.log("SUCCESS")
+                            window.location.href = response.Url;
+                        }
+                    });
+                }
+            });
+        });
+
+        $('#sportsPackages').on('click', '.js-delete', function () {
+            var button = $(this);
+            bootbox.confirm("Are you sure you want to delete package?", function (result) {
+                if (result) {
+                    $.ajax({
+                        'url': '../RemoveSportsPackage',
+                        method: "POST",
+                        data:{
+                            'id': button.attr("data-package-id"),
+                            'id2': @Model.Bar.Id,
+                        },
+                        success: function (response) {
+                            button.parents("tr").remove();
+                            console.log("SUCCESS")
+                            //window.location.href = response.Url;
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+}

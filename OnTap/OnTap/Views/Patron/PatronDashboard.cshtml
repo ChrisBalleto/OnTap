@@ -1,0 +1,96 @@
+﻿@model OnTap.ViewModels.PatronDashboardViewModel
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "PatronDashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container fluid">
+    <h2>  @Model.Patron.FirstName @Model.Patron.LastName</h2>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-warning ">
+                <div class="panel-heading">
+                    @{
+                        var imgUrl = Url.Content("~/Content/images/profile/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
+                    }
+                    <img src="@imgUrl" style='height: 100%; width: 100%; object-fit: contain' />
+                </div>
+
+                <div class="panel-body">
+                    Address: @Model.Patron.StreetOne @Model.Patron.City.CityName @Model.Patron.State.StateName
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            
+            @if (Model.Patron.FollowedBars.Any())
+            {
+                <h3>Today's Specials</h3>
+                <table id="followedBarsSpecials" class="table table-condensed panel panel-warning" style="padding-top:">
+                    <thead class="panel-heading">
+                        <tr size="5">
+                            <th size="5">Bar</th>
+                            <th size="5">Day</th>
+                            <th size="5">Special</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bar in Model.Patron.FollowedBars)
+                        {
+                            foreach (var special in bar.GetSpecials)
+                            {
+                                if (special.DayOfWeek.DayOfWeekName == DateTime.Now.DayOfWeek.ToString())
+                                { 
+                                <tr>
+                                    <td>@special.Bar.BarName</td>
+                                    <td>@special.DayOfWeek.DayOfWeekName</td>
+                                    <td>@special.SpecialDescription</td>
+                                </tr>
+                                }
+                            }
+                        }
+
+
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <h3>Bar Feed</h3>
+
+
+        @if (!Model.Patron.FollowedBars.Any())
+        {
+            <text>You are not Following any Bars</text>
+        }
+        else
+        {
+            <table id="barGames" class="table table-condensed panel panel-warning">
+                <thead class="panel-heading">
+                    <tr size="5">
+                        <th size="5">Posted</th>
+                        <th size="5">From</th>
+                        <th size="5">Subject</th>
+                        <th size="5">Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var bar in Model.Patron.FollowedBars)
+                {
+                    foreach (var message in bar.GetFeedMessages)
+                    {
+                            <tr>
+                                <td>@message.Created</td>
+                                <td>@message.FromName</td>
+                                <td>@message.Subject</td>
+                                <td>@message.Content</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+

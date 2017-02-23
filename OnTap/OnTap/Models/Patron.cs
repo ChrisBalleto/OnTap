@@ -46,10 +46,10 @@ namespace OnTap.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? BirthDate { get; set; }
 
-        [Display(Name = "Street Two")]
+        [Display(Name = "Street One")]
         public string StreetOne { get; set; }
 
-        [Display(Name = "Street One")]
+        [Display(Name = "Street Two")]
         public string StreetTwo { get; set; }
 
         
@@ -67,11 +67,18 @@ namespace OnTap.Models
         [Display(Name = "Zip-Code")]
         public int ZipCodeId { get; set; }
 
+        public string ParsedAddress { get; set; }
+
         [Display(Name = "Phone Number (optional)")]
         public string PhoneNumber { get; set; }
 
         
         public string Geolocation { get; set; }
+
+        public string GetParsedAddress
+        {
+            get { return (StreetOne + StreetTwo + ",+").Replace(" ", "+"); }
+        }
 
         public virtual ICollection<Bar> FollowedBars { get; set; }
         public virtual ICollection<Review> BarReviews { get; set; }

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Registe Bar</h2>
+<h2>Register Bar</h2>
 
 
 @using (Html.BeginForm("RegisterBar", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -25,6 +25,25 @@
             @Html.TextBoxFor(m => m.Bar.PhoneNumber, new { @class = "form-control" })
         </div>
     </div>
+    <hr />
+    <h5>Bar Info</h5>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bar.BarDescription, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.Bar.BarDescription, new { @class = "form-control", rows = 4 })
+        </div>
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.Bar.HasWifi) Does your Bar have Wifi?
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.Bar.HasJukebox) Does your Bar have a Jukebox?
+        </label>
+    </div>
+
     <hr />
     <h5>Address</h5>
     <div class="form-group">

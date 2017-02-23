@@ -1,20 +1,67 @@
 ﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
+@if (Request.IsAuthenticated && User.IsInRole("Bar"))
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>@Html.ActionLink("Dashboard", "BarDashboard", "Bar", new { email = User.Identity.GetUserName().ToString() }, htmlAttributes: new { title = "Manage" })</li>
+            <li class="dropdown">
+                <div href="#" data-toggle="dropdown" role="button" aria-expanded="false">
+
+                    @{
+                        var imgUrl = Url.Content("~/Content/images/profile/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
+                    }
+                    <img src="@imgUrl" height="50" width="50" />
+                    <span class="caret"></span>
+                </div>
+                <ul class="dropdown-menu" role="menu">
+                    <li>@Html.ActionLink("Edit Hours of Operation", "HoursOfOperation", "Bar", null, null)</li>
+                    <li>@Html.ActionLink("Edit Taps", "AddBeerToBar", "Bar", null, null)</li>
+                    <li>@Html.ActionLink("Edit Specials", "AddSpecial", "Bar", null, null)</li>
+                    <li>@Html.ActionLink("Edit Bar Games/Sports Packages", "AddBarGamesAndSports", "Bar", null, null)</li>
+                    <li class="divider"></li>
+                    <li>@Html.ActionLink("Edit Info", "EditBar", "Bar", null, null)</li>
+                    <li>@Html.ActionLink("Change Photo", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                    <li>@Html.ActionLink("Change your password", "ChangePassword")</li>
+                </ul>
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
     }
 }
-else
+else if (Request.IsAuthenticated && User.IsInRole("Patron"))
 {
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>@Html.ActionLink("Search", "SearchBars", "Patron", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                                <li>@Html.ActionLink("Dashboard", "PatronDashboard", "Patron", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                                <li class="dropdown">
+                                    <div href="#"  data-toggle="dropdown" role="button" aria-expanded="false">
+
+                                        @{
+                                            var imgUrl = Url.Content("~/Content/images/profile/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
+                                        }
+                                        <img src="@imgUrl" height="50" width="50" />
+                                        <span class="caret"></span>
+                                    </div>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>@Html.ActionLink("Edit Info", "EditPatron", "Patron", null, null)</li>
+                                        <li>@Html.ActionLink("Change Photo", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                                        <li class="divider"></li>
+                                        <li>@Html.ActionLink("Change password", "ChangePassword")</li>
+                                    </ul>
+                                </li>
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                            </ul>
+                                            }
+                                        }
+                                        else
+                                        {
     <ul class="nav navbar-nav navbar-right">
         <li>@Html.ActionLink("Register", "ChooseRole", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>

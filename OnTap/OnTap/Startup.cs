@@ -35,7 +35,7 @@ namespace OnTap
                 //Here we create a Admin super user who will maintain the website                  
 
                 var user = new ApplicationUser();
-                user.UserName = "admin";
+                user.UserName = "chrisballeto@gmail.com";
                 user.Email = "chrisballeto@gmail.com";
 
                 string userPWD = "admin1234";

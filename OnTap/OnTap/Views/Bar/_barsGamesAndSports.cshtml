@@ -1,28 +1,45 @@
-﻿<table id="tapBeers" class="table table-condensed table-responsive">
+﻿<h3>Current Bar Games</h3>
+<table id="barGames" class="table table-condensed table-responsive">
     <thead size="5">
         <tr size="5">
-            <th size="5">Beer Name</th>
-            <th size="5">Delete?</th>
-            <th size="5">Beer Name</th>
+            <th size="5">Game Name</th>
             <th size="5">Delete?</th>
         </tr>
     </thead>
     <tbody>
+        
+    @foreach (var game in Model.Bar.BarGames)
+            {
         <tr>
-            @foreach (var tapBeer in Model.TapBeers)
-            {
-                <td>@tapBeer.Name</td>
-                <td>
-                    <button data-special-id="@tapBeer.Id" class="btn btn-link js-delete">Delete</button>
-                </td>
-            }
-            @foreach (var tapBeer in Model.TapBeers)
-            {
-                <td>@tapBeer.Name</td>
-                <td>
-                    <button data-special-id="@tapBeer.Id" class="btn btn-link js-delete">Delete</button>
-                </td>
-            }
+            <td>@game.GameName</td>
+            <td>
+                <button data-game-id="@game.Id" data-bar-id="@Model.Bar.Id" class="btn btn-link js-delete">Delete</button>
+            </td>
         </tr>
+    }
+
+        
+    </tbody>
+</table>
+<h3>Current Sports Packages</h3>
+<table id="sportsPackages" class="table table-condensed table-responsive">
+    <thead size="5">
+        <tr size="5">
+            <th size="5">Sports Packages</th>
+            <th size="5">Delete?</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+            @foreach (var package in Model.Bar.SportsPackages)
+            {
+                <tr>
+                <td>@package.PackageName</td>
+                <td>
+                    <button data-package-id="@package.Id" data-bar-id="@Model.Bar.Id" class="btn btn-link js-delete">Delete</button>
+                </td>
+                </tr>
+            }
+        
     </tbody>
 </table>

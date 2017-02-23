@@ -15,5 +15,8 @@ namespace OnTap.ViewModels
         public List<Special> Specials { get; set; }
         public List<SportsPackage> SportsPackages { get; set; }
         public List<FeedMessage> FeedMessages { get; set; }
+        public List<Review> Reviews { get; set; }
+        public List<Patron> Followers { get; set; }
+        public List<Review> BarReviews { get; set; }
     }
 }

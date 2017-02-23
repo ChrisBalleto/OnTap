@@ -10,8 +10,7 @@ namespace OnTap.Models
     {
         public int Id { get; set; }
 
-        public Bar Bar { get; set; }
-        public int BarId { get; set; }
+        public string FromName { get; set; }
 
         public string Subject { get; set; }
 

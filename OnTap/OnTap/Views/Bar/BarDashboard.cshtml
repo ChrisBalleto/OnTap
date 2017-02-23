@@ -1,8 +1,204 @@
 ﻿@model OnTap.ViewModels.BarDashboardViewModel
-@{ 
+@using Microsoft.AspNet.Identity;
+@{
     ViewBag.Title = "BarDashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container fluid">
+    <h2>@Model.Bar.BarName</h2>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="panel panel-warning ">
+                <div class="panel-heading">
+                    @{
+                        var imgUrl = Url.Content("~/Content/images/profile/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
+                    }
+                    <img src="@imgUrl" style='height: 100%; width: 100%; object-fit: contain' />
+                </div>
 
-<h2>BarDashboard</h2>
+                <div class="panel-body">
+                    Address: @Model.Bar.StreetOne @Model.Bar.City.CityName @Model.Bar.State.StateName
+                </div>
+                <bold>
+                    <div class="panel-body">
+                        @Model.Bar.BarDescription
+                    </div>
+                </bold>
+                <div class="panel-heading">
+                    <h5>Hours of Operation</h5>
+                </div>
+                <div class="panel-body">
+
+                    <ul>
+                        @foreach (var hour in @Model.Bar.HoursOfOperations)
+                        {
+                            <li>
+                                @hour.DayOfWeek.DayOfWeekName:@hour.OpenTime.Value.ToShortTimeString() - @hour.CloseTime.Value.ToShortTimeString()
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="panel-heading">
+                    <h5>Bar Games</h5>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        @foreach (var game in @Model.Bar.BarGames)
+                        {
+                            <li>
+                                @game.GameName
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="panel-heading">
+                <h5>Sports Packages</h5>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    @foreach (var package in @Model.Bar.SportsPackages)
+                    {
+                        <li>
+                            @package.PackageName
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            </div>
+        </div>
+        <div class="col-lg-9 " >
+            <div class="panel panel-warning">
+                @if (Model.Bar.Specials.Any())
+            {
+                    <h3>Specials</h3>
+                    <table id="followedBarsSpecials" class="table table-condensed panel  panel-warning" style="margin-bottom: 20px; border:none;">
+                        <thead class="panel-heading panel-warning">
+                            <tr size="5">
+                                <th size="5">Bar</th>
+                                <th size="5">Day</th>
+                                <th size="5">Special</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var special in Model.Bar.GetSpecials)
+                            {
+                                <tr>
+                                    <td>@special.Bar.BarName</td>
+                                    <td>@special.DayOfWeek.DayOfWeekName</td>
+                                    <td>@special.SpecialDescription</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="panel panel-warning" style="margin-bottom: 20px;">
+                @if (Model.Bar.TapBeers.Any())
+            {
+                    <h3>Tap Beers</h3>
+                    <table id="beers" class="table table-condensed panel-warning .table-bordered" style="margin-bottom: 20px;">
+                        <thead class="panel-heading panel-warning">
+                            <tr>
+                                <th>Label</th>
+                                <th>Name</th>
+                                <th>ABV</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var beer in Model.Bar.TapBeers)
+                {
+                                <tr>
+                                    <td><img height="60" width="60" src="@beer.ImageLink"></td>
+                                    <td>@beer.Name</td>
+                                    <td>@beer.Abv</td>
+                                    <td>@beer.Description</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+        @*<div class="col-lg-4">
+            <div class="panel panel-warning ">
+                <div class="panel-heading">
+                    <h5>Bar Games</h5>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        @foreach (var game in @Model.Bar.BarGames)
+                        {
+                        <li>
+                            @game.GameName
+                        </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-warning ">
+                <div class="panel-heading">
+                    <h5>Sports Packages</h5>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        @foreach (var package in @Model.Bar.SportsPackages)
+                        {
+                        <li>
+                            @package.PackageName
+                        </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>*@
+    </div>
+    <div class="row">
+        
+
+        <div class="row">
+            <h3>Bar Feed</h3>
+
+
+            @if (!Model.Bar.FeedMessages.Any())
+            {
+                <text>You have no messages</text>
+            }
+            else
+            {
+                <table id="barGames" class="table table-condensed panel panel-warning">
+                    <thead class="panel-heading">
+                        <tr size="5">
+                            <th size="5">Posted</th>
+                            <th size="5">From</th>
+                            <th size="5">Subject</th>
+                            <th size="5">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var message in Model.Bar.GetFeedMessages)
+                        {
+                            <tr>
+                                <td>@message.Created</td>
+                                <td>@message.FromName</td>
+                                <td>@message.Subject</td>
+                                <td>@message.Content</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#beers').DataTable();
+        }
+    </script>
 

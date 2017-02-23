@@ -12,10 +12,10 @@ namespace OnTap
                         "~/Scripts/jquery-{version}.js",
                         "~/scripts/typeahead.bundle.js",
                         "~/Scripts/bootstrap.js",
-                      "~/scripts/bootbox.js",
-                      "~/Scripts/respond.js",
-                      "~/scripts/datatables/jquery.datatables.js",
-                      "~/scripts/datatables/datatables.bootstrap.js"));
+                        "~/scripts/bootbox.js",
+                        "~/Scripts/respond.js",
+                        "~/scripts/datatables/jquery.datatables.js",
+                        "~/scripts/datatables/datatables.bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -26,7 +26,7 @@ namespace OnTap
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap-superhero.css",
+                      "~/Content/bootstrap-cyborg.css",
                       "~/content/datatables/css/datatables/bootstrap.css",
                       "~/content/typeahead.css",
                       "~/Content/site.css"));
