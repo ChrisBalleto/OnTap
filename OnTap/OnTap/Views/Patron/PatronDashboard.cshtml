@@ -22,75 +22,82 @@
             </div>
         </div>
         <div class="col-lg-8">
-            
-            @if (Model.Patron.FollowedBars.Any())
+            <div class="panel panel-warning">
+                @if (Model.Patron.FollowedBars.Any())
             {
-                <h3>Today's Specials</h3>
-                <table id="followedBarsSpecials" class="table table-condensed panel panel-warning" style="padding-top:">
-                    <thead class="panel-heading">
+                    <h3>Today's Specials</h3>
+                    <table id="followedBarsSpecials" class="table table-condensed panel panel-warning" style="margin-bottom: 15px; border:none;">
+                        <thead class="panel-heading panel-warning">
+                            <tr size="5">
+                                <th size="5">Bar</th>
+                                <th size="5">Day</th>
+                                <th size="5">Special</th>
+                                <th size="5">Unfollow?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var bar in Model.Patron.FollowedBars)
+                            {
+                                foreach (var special in bar.GetSpecials)
+                                {
+                                    if (special.DayOfWeek.DayOfWeekName == DateTime.Now.DayOfWeek.ToString())
+                                    {
+                                        <tr>
+                                            <td>@Html.ActionLink(bar.BarName, "PatronViewOfBarDash", "Patron", new { id = bar.Id }, new { @class = "btn btn-primary" })</td>
+                                            <td>@special.DayOfWeek.DayOfWeekName</td>
+                                            <td>@special.SpecialDescription</td>
+                                            <td>@Html.ActionLink("Unfollow", "UnFollowBarFromDash", "Patron", new { id = bar.Id }, new { @class = "btn btn-danger" }) </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+
+
+                        </tbody>
+                    </table>
+                }
+            </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-warning" style="margin-top: 10px;">
+            <h3>Bar Feed</h3>
+
+
+            @if (!Model.Patron.FollowedBars.Any())
+            {
+                <text>You are not Following any Bars</text>
+            }
+            else
+            {
+                <table id="barGames" class="table table-condensed table-responsive panel  panel-warning" style="margin-bottom: 15px; border:none;">
+                    <thead class="panel-heading panel-warning">
                         <tr size="5">
-                            <th size="5">Bar</th>
-                            <th size="5">Day</th>
-                            <th size="5">Special</th>
+                            <th size="5">Posted</th>
+                            <th size="5">From</th>
+                            <th size="5">Subject</th>
+                            <th size="5">Message</th>
+                            <th size="5">Unfollow</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var bar in Model.Patron.FollowedBars)
                         {
-                            foreach (var special in bar.GetSpecials)
+                            foreach (var message in bar.GetFeedMessages)
                             {
-                                if (special.DayOfWeek.DayOfWeekName == DateTime.Now.DayOfWeek.ToString())
-                                { 
                                 <tr>
-                                    <td>@special.Bar.BarName</td>
-                                    <td>@special.DayOfWeek.DayOfWeekName</td>
-                                    <td>@special.SpecialDescription</td>
+                                    <td>@message.Created</td>
+                                    <td>@message.FromName</td>
+                                    <td>@message.Subject</td>
+                                    <td>@message.Content</td>
+                                    <td>@Html.ActionLink("Unfollow", "UnFollowBar", "Patron", new { id = bar.Id }, new { @class = "btn btn-danger" }) </td>
                                 </tr>
-                                }
                             }
                         }
-
-
                     </tbody>
                 </table>
             }
         </div>
-    </div>
-    <div class="row">
-        <h3>Bar Feed</h3>
-
-
-        @if (!Model.Patron.FollowedBars.Any())
-        {
-            <text>You are not Following any Bars</text>
-        }
-        else
-        {
-            <table id="barGames" class="table table-condensed panel panel-warning">
-                <thead class="panel-heading">
-                    <tr size="5">
-                        <th size="5">Posted</th>
-                        <th size="5">From</th>
-                        <th size="5">Subject</th>
-                        <th size="5">Message</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var bar in Model.Patron.FollowedBars)
-                {
-                    foreach (var message in bar.GetFeedMessages)
-                    {
-                            <tr>
-                                <td>@message.Created</td>
-                                <td>@message.FromName</td>
-                                <td>@message.Subject</td>
-                                <td>@message.Content</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        }
-    </div>
+        </div>
 </div>
 

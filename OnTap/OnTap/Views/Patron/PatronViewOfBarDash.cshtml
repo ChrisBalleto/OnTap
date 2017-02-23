@@ -1,8 +1,275 @@
-﻿
+﻿@model OnTap.ViewModels.PatronViewOfBarDashViewModel
+@using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = "PatronViewOfBarDash";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container fluid">
+    <h2>@Model.Bar.BarName</h2>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="panel panel-warning ">
+                <div class="panel-heading">
+                    @{
+                        var imgUrl = Url.Content("~/Content/images/profile/" + Model.Bar.Email + ".png") + "?time=" + DateTime.Now.ToString();
+                    }
+                    <img src="@imgUrl" style='height: 100%; width: 100%; object-fit: contain' />
+                </div>
+                <div class="panel-body">
+                    Address: @Model.Bar.StreetOne @Model.Bar.City.CityName @Model.Bar.State.StateName
+                </div>
+                <div class="panel-body">
+                    Rating: @Model.Bar.Rating
+                </div>
+                @if (User.IsInRole("Patron"))
+                {
+                    if (!Model.Patron.FollowedBars.Contains(Model.Bar))
+                    {
+                        <center>
+                            <div>
+                                @Html.ActionLink("Follow", "FollowBar", "Patron", new { id = Model.Bar.Id }, new { @class = "btn btn-success" })
+                            </div>
+                        </center>
+                    }
+                    else
+                    {
+                        <center>
+                            <div>
+                                @Html.ActionLink("Unfollow", "UnFollowBar", "Patron", new { id = Model.Bar.Id }, new { @class = "btn btn-danger" })
+                            </div>
+                        </center>
+                    }
+                }
+                <bold>
+                    <div class="panel-body">
+                        @Model.Bar.BarDescription
+                    </div>
+                </bold>
+                <div class="panel-heading">
+                    <h5>Hours of Operation</h5>
+                </div>
+                <div class="panel-body">
 
-<h2>PatronViewOfBarDash</h2>
+                    <ul>
+                        @foreach (var hour in @Model.Bar.HoursOfOperations)
+                        {
+                            <li>
+                                @hour.DayOfWeek.DayOfWeekName:@hour.OpenTime.Value.ToShortTimeString() - @hour.CloseTime.Value.ToShortTimeString()
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="panel-heading">
+                    <h5>Wifi/Jukebox</h5>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>JukeBox: @Model.Bar.GetJukeboxYesNo</li>
+                        <li>Wifi: @Model.Bar.GetWifiYesNo</li>
+                    </ul>
+                </div>
+                <div class="panel-heading">
+                    <h5>Bar Games</h5>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        @foreach (var game in @Model.Bar.BarGames)
+                        {
+                            <li>
+                                @game.GameName
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="panel-heading">
+                    <h5>Sports Packages</h5>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        @foreach (var package in @Model.Bar.SportsPackages)
+                        {
+                            <li>
+                                @package.PackageName
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-9 ">
+            <div class="panel panel-warning">
+                @if (Model.Bar.Specials.Any())
+            {
+                    <h3>Specials</h3>
+                    <table id="followedBarsSpecials" class="table table-condensed panel  panel-warning" style="margin-bottom: 15px; border:none;">
+                        <thead class="panel-heading panel-warning">
+                            <tr size="5">
+                                @*<th size="5">Bar</th>*@
+                                <th size="5">Day</th>
+                                <th size="5">Special</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var special in Model.Bar.GetSpecials)
+                            {
+                                <tr>
+                                    @*<td>@special.Bar.BarName</td>*@
+                                    <td>@special.DayOfWeek.DayOfWeekName</td>
+                                    <td>@special.SpecialDescription</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="panel panel-warning" style="margin-top: 10px;">
+                @if (Model.Bar.TapBeers.Any())
+            {
+                    <h3>Tap Beers</h3>
+                    <table id="beers" class="table table-condensed panel-warning .table-bordered">
+                        <thead class="panel-heading panel-warning">
+                            <tr>
+                                <th>Label</th>
+                                <th>Name</th>
+                                <th>ABV</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var beer in Model.Bar.TapBeers)
+                {
+                                <tr>
+                                    <td><img height="60" width="60" src="@beer.ImageLink"></td>
+                                    <td>@beer.Name</td>
+                                    <td>@beer.Abv</td>
+                                    <td>@beer.Description</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+        @*<div class="col-lg-4">
+                <div class="panel panel-warning ">
+                    <div class="panel-heading">
+                        <h5>Bar Games</h5>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            @foreach (var game in @Model.Bar.BarGames)
+                            {
+                            <li>
+                                @game.GameName
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="panel panel-warning ">
+                    <div class="panel-heading">
+                        <h5>Sports Packages</h5>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            @foreach (var package in @Model.Bar.SportsPackages)
+                            {
+                            <li>
+                                @package.PackageName
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            @using (Html.BeginForm("BarMessageFeed", "Bar", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <h4>New Message</h4>
+                <div class="form-group ">
+                    <label> Subject </label>
+                    @Html.TextBoxFor(m => m.FeedMessage.Subject, new { @class = "form-control" })
+                </div>
+                <div class="form-group ">
+                    <label> Message </label>
+                    @Html.TextAreaFor(m => m.FeedMessage.Content, new { @class = "form-control", rows = 3 })
+                </div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default form" value="Send" />
+                </div>
+                @Html.HiddenFor(m => m.Bar.Id)
+            }
+        </div>
+        <div class="col-lg-9">
+            <div class="panel panel-warning" style="margin-top: 10px;">
+                <h3>Bar Feed</h3>
+
+
+                @if (!Model.Bar.FeedMessages.Any())
+            {
+                    <text>You have no messages</text>
+                }
+                else
+                {
+                    <table id="feedMessages" class="table table-condensed table-responsive panel  panel-warning" style="margin-bottom: 15px; border:none;">
+                        <thead size="5" class="panel-heading panel-warning">
+                            <tr size="5">
+                                <th>Post Date</th>
+                                <th>Subject</th>
+                                <th size="5">Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var message in Model.Bar.FeedMessages)
+                            {
+                                <tr>
+                                    <td>@message.Created</td>
+                                    <td>@message.Subject</td>
+                                    <td>@message.Content</td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#beers').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+            });
+
+            $('#feedMessages').on('click', '.js-delete', function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure you want to delete message?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            'url': '../Bar/RemoveMessage',
+                            method: "POST",
+                            data:{
+                                'id': button.attr("data-message-id"),
+                                'id2': @Model.Bar.Id,
+                            },
+                            success: function (response) {
+                                button.parents("tr").remove();
+                                console.log("SUCCESS")
+                                window.location.href = response.Url;
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 

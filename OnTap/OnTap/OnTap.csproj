@@ -373,6 +373,7 @@
     <Compile Include="ViewModels\HoursOfOperationViewModel.cs" />
     <Compile Include="ViewModels\PatronDashboardViewModel.cs" />
     <Compile Include="ViewModels\PatronMessageFeedViewModel.cs" />
+    <Compile Include="ViewModels\PatronViewOfBarDashViewModel.cs" />
     <Compile Include="ViewModels\RegisterBarViewModel.cs" />
     <Compile Include="ViewModels\RegisterPatronViewModel.cs" />
     <Compile Include="ViewModels\RoleViewModel.cs" />

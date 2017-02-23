@@ -56,6 +56,38 @@ namespace OnTap.Controllers
             return View(viewModel);
         }
 
+        public ActionResult PatronViewOfBarDash(int id)
+        {
+            var currentUser = User.Identity.Name;
+            var patron = _context.Patrons
+                .Include(p => p.FollowedBars)
+                .Include(z => z.City)
+                .Include(y => y.State)
+                .Include(z => z.ZipCode)
+                .SingleOrDefault(c => c.Email == currentUser);
+            var bar = _context.Bars
+            .Include(z => z.City)
+            .Include(y => y.State)
+            .Include(z => z.ZipCode)
+            .Include(x => x.FeedMessages)
+            .Include(x => x.BarGames)
+            .Include(x => x.SportsPackages)
+            .Include(x => x.TapBeers)
+            .Include(x => x.Followers)
+            .Include(x => x.HoursOfOperations)
+            .Include(x => x.BarReviews)
+            .SingleOrDefault(c => c.Id == id);
+
+            var viewModel = new PatronViewOfBarDashViewModel()
+            {
+                Patron = patron,
+                Bar = bar,
+                DayOfWeeks = _context.DayOfWeeks.ToList()
+            };
+
+            return View(viewModel);
+        }
+
 
 
         public ActionResult PatronDashboard()
@@ -148,6 +180,20 @@ namespace OnTap.Controllers
 
 
             return RedirectToAction("SearchBars");
+        }
+
+        public ActionResult UnFollowBarFromDash(int id)
+        {
+            var currentUser = User.Identity.Name;
+            var patron = _context.Patrons.Include(p => p.FollowedBars).SingleOrDefault(c => c.Email == currentUser);
+            var bar = _context.Bars.SingleOrDefault(c => c.Id == id);
+
+            patron.FollowedBars.Remove(bar);
+            bar.Followers.Remove(patron);
+            _context.SaveChanges();
+
+
+            return RedirectToAction("PatronDashboard");
         }
 
 

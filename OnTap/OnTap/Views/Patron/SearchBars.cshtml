@@ -45,7 +45,7 @@
             <tr>
                 <td>
                     <div class="dropdown">
-                            @Html.ActionLink(bar.BarName, "BarDashboard", "Bar", new { id = bar.Id }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink(bar.BarName, "PatronViewOfBarDash", "Patron", new { id = bar.Id }, new { @class = "btn btn-warning" })
                             <span class="caret"></span>
                         <ul class="dropdown dropdown-menu dropdown-content">
                             <li>@bar.BarDescription</li>
