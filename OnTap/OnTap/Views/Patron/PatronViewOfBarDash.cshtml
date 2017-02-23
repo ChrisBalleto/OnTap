@@ -7,7 +7,7 @@
 <div class="container fluid">
     <h2>@Model.Bar.BarName</h2>
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-4">
             <div class="panel panel-warning ">
                 <div class="panel-heading">
                     @{
@@ -16,7 +16,7 @@
                     <img src="@imgUrl" style='height: 100%; width: 100%; object-fit: contain' />
                 </div>
                 <div class="panel-body">
-                    Address: @Model.Bar.StreetOne @Model.Bar.City.CityName @Model.Bar.State.StateName
+                    Address: @Model.Bar.StreetOne @Model.Bar.City.CityName @Model.Bar.State.StateName @Model.Bar.ZipCode.ZipCodeNum
                 </div>
                 <div class="panel-body">
                     Rating: @Model.Bar.Rating
@@ -50,11 +50,11 @@
                 </div>
                 <div class="panel-body">
 
-                    <ul>
+                    <ul style="list-style: none; padding: 0;">
                         @foreach (var hour in @Model.Bar.HoursOfOperations)
                         {
                             <li>
-                                @hour.DayOfWeek.DayOfWeekName:@hour.OpenTime.Value.ToShortTimeString() - @hour.CloseTime.Value.ToShortTimeString()
+                                @hour.DayOfWeek.DayOfWeekName: &nbsp; @hour.OpenTime.Value.ToShortTimeString() - @hour.CloseTime.Value.ToShortTimeString()
                             </li>
                         }
                     </ul>
@@ -64,7 +64,7 @@
                     <h5>Wifi/Jukebox</h5>
                 </div>
                 <div class="panel-body">
-                    <ul>
+                    <ul style="list-style: none;">
                         <li>JukeBox: @Model.Bar.GetJukeboxYesNo</li>
                         <li>Wifi: @Model.Bar.GetWifiYesNo</li>
                     </ul>
@@ -73,7 +73,7 @@
                     <h5>Bar Games</h5>
                 </div>
                 <div class="panel-body">
-                    <ul>
+                    <ul style="list-style: none;">
                         @foreach (var game in @Model.Bar.BarGames)
                         {
                             <li>
@@ -86,7 +86,7 @@
                     <h5>Sports Packages</h5>
                 </div>
                 <div class="panel-body">
-                    <ul>
+                    <ul style="list-style: none;">
                         @foreach (var package in @Model.Bar.SportsPackages)
                         {
                             <li>
@@ -98,12 +98,12 @@
 
             </div>
         </div>
-        <div class="col-lg-9 ">
-            <div class="panel panel-warning">
+        <div class="col-lg-8 ">
+            <div class="panel" style="border:none;">
                 @if (Model.Bar.Specials.Any())
             {
                     <h3>Specials</h3>
-                    <table id="followedBarsSpecials" class="table table-condensed panel  panel-warning" style="margin-bottom: 15px; border:none;">
+                    <table id="followedBarsSpecials" class="table table-condensed panel-warning" style="margin-bottom: 15px; border:none;">
                         <thead class="panel-heading panel-warning">
                             <tr size="5">
                                 @*<th size="5">Bar</th>*@
@@ -125,7 +125,7 @@
                 }
             </div>
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-8">
             <div class="panel panel-warning" style="margin-top: 10px;">
                 @if (Model.Bar.TapBeers.Any())
             {
@@ -145,7 +145,14 @@
                                 <tr>
                                     <td><img height="60" width="60" src="@beer.ImageLink"></td>
                                     <td>@beer.Name</td>
-                                    <td>@beer.Abv</td>
+                                    @if (beer.Abv.ToString() == "undefined ")
+                                    {
+                                        <td>NA</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@beer.Abv</td>
+                                    }
                                     <td>@beer.Description</td>
                                 </tr>
                             }
@@ -191,16 +198,20 @@
     </div>
     <div class="row">
         <div class="col-lg-3">
-            @using (Html.BeginForm("BarMessageFeed", "Bar", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("BarReview", "Bar", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 <h4>New Message</h4>
                 <div class="form-group ">
                     <label> Subject </label>
-                    @Html.TextBoxFor(m => m.FeedMessage.Subject, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Review.Subject, new { @class = "form-control" })
                 </div>
                 <div class="form-group ">
                     <label> Message </label>
-                    @Html.TextAreaFor(m => m.FeedMessage.Content, new { @class = "form-control", rows = 3 })
+                    @Html.TextAreaFor(m => m.Review.Content, new { @class = "form-control", rows = 3 })
+                </div>
+                <div class="form-group ">
+                    <label> Message </label>
+                    @Html.TextAreaFor(m => m.Review.Rating, new { @class = "form-control", rows = 3 })
                 </div>
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" class="btn btn-default form" value="Send" />
@@ -219,7 +230,7 @@
                 }
                 else
                 {
-                    <table id="feedMessages" class="table table-condensed table-responsive panel  panel-warning" style="margin-bottom: 15px; border:none;">
+                    <table id="feedMessages" class="table table-condensed table-responsive panel-warning" style="margin-bottom: 15px; border:none;">
                         <thead size="5" class="panel-heading panel-warning">
                             <tr size="5">
                                 <th>Post Date</th>

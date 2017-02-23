@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Bar Search</h2>
+
 
 <style>
      /* Always set the map height explicitly to define the size of the div
@@ -13,7 +13,7 @@
          height: 600px;
      }
      body {
-        background-image: url("../../Content/images/LakefrontTaps.jpg");
+        background-image: url("../../Content/images/randombeertaps.jpg");
         background-repeat: no-repeat;
         height: 100%;
         width: 100%;
@@ -25,85 +25,87 @@
     display: block;
 }
 </style>
-<table id="bars" class="table table-condensed table-responsive">
-    <thead>
-        <tr>
-            <th>Bar Name</th>
-            <th>Rating</th>
-            <th>Bar Address</th>
-            <th>Wifi</th>
-            <th>Jukebox</th>
-            <th>Sports Packages</th>
-            <th>Bar Games</th>
-            <th>Tap Beers</th>
-            <th>Follow?</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var bar in Model.Bars)
-        {
+<div class="panel" style="border:none; background-color:rgba(20, 20, 20, 0.90);">
+    <h2>Bar Search</h2>
+    <table id="bars" class="table table-condensed table-responsive panel-warning" style="margin-bottom: 15px; border:none;">
+        <thead class="panel-heading panel-warning" style="border:none; ">
             <tr>
-                <td>
-                    <div class="dropdown">
-                            @Html.ActionLink(bar.BarName, "PatronViewOfBarDash", "Patron", new { id = bar.Id }, new { @class = "btn btn-warning" })
-                            <span class="caret"></span>
-                        <ul class="dropdown dropdown-menu dropdown-content">
-                            <li>@bar.BarDescription</li>
-                        </ul>
-                    </div> 
-                </td>
-                <td>@bar.Rating</td>
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-content" type="button" data-toggle="dropdown">
-                            Address
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown dropdown-menu dropdown-content">
-                            <li>@bar.StreetOne</li>
-                            <li>@bar.City.CityName</li>
-                            <li>@bar.State.StateName</li>
-                            <li>@bar.ZipCode.ZipCodeNum</li>
-                        </ul>
-                    </div>
-                </td>
-                <td>@bar.GetWifiYesNo</td>
-                <td>@bar.GetJukeboxYesNo</td>
-                <td>
-                    @Html.DropDownList("See Packages", new SelectList(bar.SportsPackages, "Id", "PackageName"), "See Packages", new { @class = "form-control" })
-                    @*<ul>
-
-                            @foreach( var package in bar.SportsPackages)
-                            {
-                            <li>@package.PackageName</li>
-                            }
-                        </ul>*@
-                </td>
-                <td>
-                    @Html.DropDownList("See Games", new SelectList(bar.BarGames, "Id", "GameName"), "See Games", new { @class = "form-control" })
-                </td>
-                <td>
-                    @Html.DropDownList("See Taps", new SelectList(bar.TapBeers, "Id", "Name"), "See Taps", new { @class = "form-control" })
-                </td>
-                @if (!Model.Patron.FollowedBars.Contains(bar))
-                {
-                    <td>@Html.ActionLink("Follow", "FollowBar", "Patron", new { id = bar.Id }, new { @class = "btn btn-success" }) </td>
-                }
-                else
-                {
-                    <td>@Html.ActionLink("Unfollow", "UnFollowBar", "Patron", new { id = bar.Id }, new { @class = "btn btn-danger" }) </td>
-                }
-
+                <th>Bar Name</th>
+                <th>Rating</th>
+                <th>Bar Address</th>
+                <th>Wifi</th>
+                <th>Jukebox</th>
+                <th>Sports Packages</th>
+                <th>Bar Games</th>
+                <th>Tap Beers</th>
+                <th>Follow?</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var bar in Model.Bars)
+            {
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                                @Html.ActionLink(bar.BarName, "PatronViewOfBarDash", "Patron", new { id = bar.Id }, new { @class = "btn btn-warning"})
+                            <ul class="dropdown dropdown-menu dropdown-content">
+                                <li>@bar.BarDescription</li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>@bar.Rating</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-content" type="button" data-toggle="dropdown">
+                                Address
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown dropdown-menu dropdown-content">
+                                <li>@bar.StreetOne</li>
+                                <li>@bar.City.CityName</li>
+                                <li>@bar.State.StateName</li>
+                                <li>@bar.ZipCode.ZipCodeNum</li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>@bar.GetWifiYesNo</td>
+                    <td>@bar.GetJukeboxYesNo</td>
+                    <td>
+                        @Html.DropDownList("See Packages", new SelectList(bar.SportsPackages, "Id", "PackageName"), "See Packages", new { @class = "form-control" })
+                        @*<ul>
+
+                                @foreach( var package in bar.SportsPackages)
+                                {
+                                <li>@package.PackageName</li>
+                                }
+                            </ul>*@
+                    </td>
+                    <td>
+                        @Html.DropDownList("See Games", new SelectList(bar.BarGames, "Id", "GameName"), "See Games", new { @class = "form-control" })
+                    </td>
+                    <td>
+                        @Html.DropDownList("See Taps", new SelectList(bar.TapBeers, "Id", "Name"), "See Taps", new { @class = "form-control" })
+                    </td>
+                    @if (!Model.Patron.FollowedBars.Contains(bar))
+                {
+                        <td>@Html.ActionLink("Follow", "FollowBar", "Patron", new { id = bar.Id }, new { @class = "btn btn-success" }) </td>
+                    }
+                    else
+                    {
+                        <td>@Html.ActionLink("Unfollow", "UnFollowBar", "Patron", new { id = bar.Id }, new { @class = "btn btn-danger" }) </td>
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
 
     <div id="map"></div>
 
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             $('#bars').DataTable({
                 "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
@@ -149,7 +151,7 @@
                     };
 
                     infoWindow.setPosition(pos);
-                    infoWindow.setContent('Location found.');
+                    infoWindow.setContent('You');
                     map.setCenter(pos);
                 }, function () {
                     handleLocationError(true, infoWindow, map.getCenter());
@@ -158,6 +160,9 @@
                 // Browser doesn't support Geolocation
                 handleLocationError(false, infoWindow, map.getCenter());
             }
+
+
+
             @foreach (var bar in Model.Bars) {
                 <text>
             @*var latLng = new google.maps.LatLng(@(Model.Latitude), @(Model.Longitude));*@
@@ -174,40 +179,45 @@
             var state = '@(bar.State.StateName)';
             var searchAddress = address + ',+' + city + ',+' + state;
             var parsedSearchAddress = searchAddress.replace(' ', "+");
-        
 
 
-                geocoder.geocode({'address': searchAddress}, function(results, status) {
 
-                    if (status == google.maps.GeocoderStatus.OK) {
+            geocoder.geocode({ 'address': searchAddress }, function (results, status) {
 
-                        address = results[0].geometry.location;
-                        var image = {
-                            url: "../Content/images/bluedart.png",
-                            // This marker is 20 pixels wide by 32 pixels high.
-                            size: new google.maps.Size(500, 500),
-                            // The origin for this image is (0, 0).
-                            origin: new google.maps.Point(30, 30
-                               ),
-                            // The anchor for this image is the base of the flagpole at (30, 0).
-                            anchor: new google.maps.Point(0, 30)
-                        };
-                        var marker = new google.maps.Marker({
-                            position: address,
-                            title: title,
-                            map: map,
-                            draggable: false,
-                            //icon: image,
-                            animation: google.maps.Animation.DROP,
-                        });
-                        google.maps.event.addListener(marker, 'click', function () {
-                            infowindow.open(map, marker);
-                        });
-                        
-                    }
-                });
-            
-                </text>
+                if (status == google.maps.GeocoderStatus.OK) {
+
+                    address = results[0].geometry.location;
+                    var image = {
+                        url: "../Content/images/bluedart.png",
+                        // This marker is 20 pixels wide by 32 pixels high.
+                        size: new google.maps.Size(500, 500),
+                        // The origin for this image is (0, 0).
+                        origin: new google.maps.Point(30, 30
+                           ),
+                        // The anchor for this image is the base of the flagpole at (30, 0).
+                        anchor: new google.maps.Point(0, 30)
+                    };
+
+                    var marker = new google.maps.Marker({
+                        position: address,
+                        title: title,
+                        map: map,
+                        draggable: false,
+                        //icon: image,
+                        animation: google.maps.Animation.DROP,
+                    });
+                    google.maps.event.addListener(marker, 'click', function () {
+                        infowindow.open(map, marker);
+                    });
+
+                }
+            });
+
+            </text>
+
+
+
+
             }
         }
 
@@ -218,7 +228,7 @@
                                   'Error: The Geolocation service failed.' :
                                   'Error: Your browser doesn\'t support geolocation.');
         }
-</script>
+    </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA63adaHz7VvTA5O_MD7PNuXtEHqJ4x2oQ&callback=initMap&libraries=places,visualization">
     </script>

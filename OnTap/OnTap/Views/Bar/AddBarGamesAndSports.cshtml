@@ -14,32 +14,37 @@ else
     @Html.Partial("_barsGamesAndSports", Model)
 
 }
-<h3>Add Bar Game</h3>
 @using (Html.BeginForm("AddBarGamesAndSports", "Bar", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-        <div class="form-group ">
-            <label> Games </label>
-            @Html.DropDownListFor(m => m.BarGame.Id, new SelectList(Model.BarGames, "Id", "GameName"), "Select Game", new { @class = "form-control" })
-        </div>
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Add Game" />
-        </div>  
 
-
-<h3>Add Sports Packages</h3>
-
-        <div class="form-group ">
-            <label> Packages </label>
-            @Html.DropDownListFor(m => m.SportsPackage.Id, new SelectList(Model.SportsPackages, "Id", "PackageName"), "Select Package", new { @class = "form-control" })
-        </div>
-        <div class="form-group">
+    <div class="row">
+        <div class="col-lg-6">
+            <h3>Add Bar Game</h3>
+            <div class="form-group ">
+                <label> Games </label>
+                @Html.DropDownListFor(m => m.BarGame.Id, new SelectList(Model.BarGames, "Id", "GameName"), "Select Game", new { @class = "form-control" })
+            </div>
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-default" value="Add Package" />
+                <input type="submit" class="btn btn-default" value="Add Game" />
             </div>
         </div>
+        <div class="col-lg-6">
+            <h3>Add Sports Packages</h3>
 
-@Html.HiddenFor(m => m.Bar.Id)
+            <div class="form-group ">
+                <label> Packages </label>
+                @Html.DropDownListFor(m => m.SportsPackage.Id, new SelectList(Model.SportsPackages, "Id", "PackageName"), "Select Package", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default" value="Add Package" />
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.Bar.Id)
 }
+        
 
 
 

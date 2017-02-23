@@ -10,6 +10,7 @@ namespace OnTap.ViewModels
     {
         public Patron Patron { get; set; }
         public Bar Bar { get; set; }
+        public Review Review { get; set; }
         public FeedMessage FeedMessage { get; set; }
         public List<Models.DayOfWeek> DayOfWeeks { get; set; }
         public List<HoursOfOperation> HoursOfOperations { get; set; }

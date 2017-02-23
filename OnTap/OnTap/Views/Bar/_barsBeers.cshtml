@@ -1,20 +1,23 @@
-﻿<table id="tapBeers" class="table table-condensed table-responsive">
-    <thead size="5">
-        <tr size="5">
-            <th size="5">Beer Name</th>
-            <th size="5">Delete?</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var tapBeer in Model.TapBeers)
-            {
-            <tr>
-                <td>@tapBeer.Name</td>
-                <td>
-                    <button data-special-id="@tapBeer.Id" class="btn btn-link js-delete">Delete</button>
-                </td>
+﻿<div class="panel panel-warning" style="margin-top: 10px;">
+    <h2>Current Tap Beers</h2>
+    <table id="tapBeers" class="table table-condensed panel-warning" style="margin-bottom: 15px; border:none;">
+        <thead size="5" class="panel-heading panel-warning">
+            <tr size="5">
+                <th size="5">Beer Name</th>
+                <th size="5">Delete?</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var tapBeer in Model.TapBeers)
+            {
+                <tr>
+                    <td>@tapBeer.Name</td>
+                    <td>
+                        <button data-special-id="@tapBeer.Id" class="btn btn-danger js-delete">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
 

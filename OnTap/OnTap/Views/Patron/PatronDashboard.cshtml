@@ -26,7 +26,7 @@
                 @if (Model.Patron.FollowedBars.Any())
             {
                     <h3>Today's Specials</h3>
-                    <table id="followedBarsSpecials" class="table table-condensed panel panel-warning" style="margin-bottom: 15px; border:none;">
+                    <table id="followedBarsSpecials" class="table table-condensed panel-warning" style="margin-bottom: 15px; border:none;">
                         <thead class="panel-heading panel-warning">
                             <tr size="5">
                                 <th size="5">Bar</th>
@@ -70,7 +70,7 @@
             }
             else
             {
-                <table id="barGames" class="table table-condensed table-responsive panel  panel-warning" style="margin-bottom: 15px; border:none;">
+                <table id="barGames" class="table table-condensed table-responsive  panel-warning" style="margin-bottom: 15px; border:none;">
                     <thead class="panel-heading panel-warning">
                         <tr size="5">
                             <th size="5">Posted</th>
@@ -87,7 +87,7 @@
                             {
                                 <tr>
                                     <td>@message.Created</td>
-                                    <td>@message.FromName</td>
+                                    <td>@Html.ActionLink(bar.BarName, "PatronViewOfBarDash", "Patron", new { id = bar.Id }, new { @class = "btn btn-primary" })</td>
                                     <td>@message.Subject</td>
                                     <td>@message.Content</td>
                                     <td>@Html.ActionLink("Unfollow", "UnFollowBar", "Patron", new { id = bar.Id }, new { @class = "btn btn-danger" }) </td>

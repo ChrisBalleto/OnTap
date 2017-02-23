@@ -16,7 +16,7 @@
                     <img src="@imgUrl" style='height: 100%; width: 100%; object-fit: contain' />
                 </div>
                 <div class="panel-body">
-                    Address: @Model.Bar.StreetOne @Model.Bar.City.CityName @Model.Bar.State.StateName
+                    Address: @Model.Bar.StreetOne @Model.Bar.City.CityName @Model.Bar.State.StateName @Model.Bar.ZipCode.ZipCodeNum
                 </div>
                 <div class="panel-body">
                     Rating: @Model.Bar.Rating
@@ -46,11 +46,11 @@
                 </div>
                 <div class="panel-body">
 
-                    <ul>
+                    <ul style="list-style: none; padding: 0;">
                         @foreach (var hour in @Model.Bar.HoursOfOperations)
                         {
                             <li>
-                                @hour.DayOfWeek.DayOfWeekName:@hour.OpenTime.Value.ToShortTimeString() - @hour.CloseTime.Value.ToShortTimeString()
+                                @hour.DayOfWeek.DayOfWeekName : &nbsp; @hour.OpenTime.Value.ToShortTimeString() - @hour.CloseTime.Value.ToShortTimeString()
                             </li>
                         }
                     </ul>
@@ -60,7 +60,7 @@
                     <h5>Wifi/Jukebox</h5>
                 </div>
                 <div class="panel-body">
-                    <ul>
+                    <ul style="list-style: none;">
                         <li>JukeBox: @Model.Bar.GetJukeboxYesNo</li>
                         <li>Wifi: @Model.Bar.GetWifiYesNo</li>
                     </ul>
@@ -69,7 +69,7 @@
                     <h5>Bar Games</h5>
                 </div>
                 <div class="panel-body">
-                    <ul>
+                    <ul style="list-style: none;">
                         @foreach (var game in @Model.Bar.BarGames)
                         {
                             <li>
@@ -82,7 +82,7 @@
                     <h5>Sports Packages</h5>
                 </div>
                 <div class="panel-body">
-                    <ul>
+                    <ul style="list-style: none;">
                         @foreach (var package in @Model.Bar.SportsPackages)
                         {
                             <li>
@@ -99,7 +99,7 @@
                 @if (Model.Bar.Specials.Any())
             {
                     <h3>Specials</h3>
-                    <table id="followedBarsSpecials" class="table table-condensed panel  panel-warning" style="margin-bottom: 15px; border:none;">
+                    <table id="followedBarsSpecials" class="table table-condensed panel-warning" style="margin-bottom: 15px; border:none;">
                         <thead class="panel-heading panel-warning">
                             <tr size="5">
                                 @*<th size="5">Bar</th>*@
@@ -216,7 +216,7 @@
                 else
                 {
                     @Html.Partial("_barsFeed", Model)
-                    <table id="feedMessages" class="table table-condensed table-responsive panel  panel-warning" style="margin-bottom: 15px; border:none;">
+                    <table id="feedMessages" class="table table-condensed table-responsive panel-warning" style="margin-bottom: 15px; border:none;">
                         <thead size="5" class="panel-heading panel-warning">
                             <tr size="5">
                                 <th>Post Date</th>

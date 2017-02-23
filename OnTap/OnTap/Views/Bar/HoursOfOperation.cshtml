@@ -4,114 +4,115 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<h2>Hours</h2>
-@using (Html.BeginForm("HoursOfOperation", "Bar", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    <table class="table table-condensed">
-        <thead>
-            <tr>
-                <th>Day</th>
-                <th>@Html.LabelFor(m => m.HoursOfOperation.OpenTime)</th>
-                <th>@Html.LabelFor(m => m.HoursOfOperation.CloseTime)</th>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Sunday</td>
-                <td> @Html.TextBoxFor(m => m.SundayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
-                <td> @Html.TextBoxFor(m => m.SundayClose, "{0:HH:mm}",new { @class = "form-control", @type = "time" })</td>
-            </tr>
+<div class="panel panel-warning" style="margin-top: 10px;">
+    <h2>Hours</h2>
+    @using (Html.BeginForm("HoursOfOperation", "Bar", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <table class="table table-condensed panel-warning" style="margin-bottom: 15px; border:none;">
+            <thead class="panel-heading panel-warning">
+                <tr>
+                    <th>Day</th>
+                    <th>@Html.LabelFor(m => m.HoursOfOperation.OpenTime)</th>
+                    <th>@Html.LabelFor(m => m.HoursOfOperation.CloseTime)</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Sunday</td>
+                    <td> @Html.TextBoxFor(m => m.SundayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                    <td> @Html.TextBoxFor(m => m.SundayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                </tr>
                 <tr>
                     <td>Monday</td>
                     <td> @Html.TextBoxFor(m => m.MondayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
                     <td> @Html.TextBoxFor(m => m.MondayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
                 </tr>
-            <tr>
-                <td>Tuesday</td>
-                <td> @Html.TextBoxFor(m => m.TuesdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
-                <td> @Html.TextBoxFor(m => m.TuesdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
-            </tr>
-            <tr>
-                <td>Wednesday</td>
-                <td> @Html.TextBoxFor(m => m.WednesdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
-                <td> @Html.TextBoxFor(m => m.WednesdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
-            </tr>
-            <tr>
-                <td>Thursday</td>
-                <td> @Html.TextBoxFor(m => m.ThursdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
-                <td> @Html.TextBoxFor(m => m.ThursdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
-            </tr>
-            <tr>
-                <td>Friday</td>
-                <td> @Html.TextBoxFor(m => m.FridayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
-                <td> @Html.TextBoxFor(m => m.FridayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
-            </tr>
-            <tr>
-                <td>Saturday</td>
-                <td> @Html.TextBoxFor(m => m.SaturdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
-                <td> @Html.TextBoxFor(m => m.SaturdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
-            </tr>
-        </tbody>
-    </table>
-    @Html.HiddenFor(m => m.Bar.Id)
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" class="btn btn-default" value="Add" />
+                <tr>
+                    <td>Tuesday</td>
+                    <td> @Html.TextBoxFor(m => m.TuesdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                    <td> @Html.TextBoxFor(m => m.TuesdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                </tr>
+                <tr>
+                    <td>Wednesday</td>
+                    <td> @Html.TextBoxFor(m => m.WednesdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                    <td> @Html.TextBoxFor(m => m.WednesdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                </tr>
+                <tr>
+                    <td>Thursday</td>
+                    <td> @Html.TextBoxFor(m => m.ThursdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                    <td> @Html.TextBoxFor(m => m.ThursdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                </tr>
+                <tr>
+                    <td>Friday</td>
+                    <td> @Html.TextBoxFor(m => m.FridayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                    <td> @Html.TextBoxFor(m => m.FridayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                </tr>
+                <tr>
+                    <td>Saturday</td>
+                    <td> @Html.TextBoxFor(m => m.SaturdayOpen, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                    <td> @Html.TextBoxFor(m => m.SaturdayClose, "{0:HH:mm}", new { @class = "form-control", @type = "time" })</td>
+                </tr>
+            </tbody>
+        </table>
+        @Html.HiddenFor(m => m.Bar.Id)
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Add" />
+            </div>
+        </div>
+    }
     </div>
-</div>
-}
 
 
 
 
-<script>
-    var days = [];
-    var openHours = [];
-    var closeHours = [];
+    <script>
+        var days = [];
+        var openHours = [];
+        var closeHours = [];
 
-    $('#addHoursToBar').on("click", function () {
-        vadays = [];
-        openHours = [];
-        closeHours = [];
-        getDaysToList();
-        getOpenTimeToList();
-        getCloseTimeToList();
-        sendHourstoController();
+        $('#addHoursToBar').on("click", function () {
+            vadays = [];
+            openHours = [];
+            closeHours = [];
+            getDaysToList();
+            getOpenTimeToList();
+            getCloseTimeToList();
+            sendHourstoController();
 
-    });
+        });
 
-    function sendHourstoController(days, opens, closes){
-        $.ajax({
-            'type': 'POST',
-            'url': '../HoursOfOperation',
-            'data': {
-                'id': @Model.Bar.Id,
-                'dayIds':days,
-                'openTimes': openHours,
-                'closeTimes':closeHours,
+        function sendHourstoController(days, opens, closes){
+            $.ajax({
+                'type': 'POST',
+                'url': '../HoursOfOperation',
+                'data': {
+                    'id': @Model.Bar.Id,
+                    'dayIds':days,
+                    'openTimes': openHours,
+                    'closeTimes':closeHours,
+                }
+            })
+        }
+        function getDaysToList(){
+            for(var i = 0; i < 7;i++){
+                var day = $('#day_'+i).val();
+                days.push(day);
             }
-        })
-    }
-    function getDaysToList(){
-        for(var i = 0; i < 7;i++){
-            var day = $('#day_'+i).val();
-            days.push(day);
         }
-    }
-    function getOpenTimeToList(){
-        for(var i = 0; i < 7;i++){
-            var openTime = $('#openTime_'+i).val();
-            openHours.push(openTime);
+        function getOpenTimeToList(){
+            for(var i = 0; i < 7;i++){
+                var openTime = $('#openTime_'+i).val();
+                openHours.push(openTime);
+            }
         }
-    }
-    function getCloseTimeToList(){
-        for(var i = 0; i < 7;i++){
-            var closeTime = $('#closeTime_'+i).val();
-            closeHours.push(closeTime);
+        function getCloseTimeToList(){
+            for(var i = 0; i < 7;i++){
+                var closeTime = $('#closeTime_'+i).val();
+                closeHours.push(closeTime);
+            }
         }
-    }
 
-</script>
+    </script>
 
 
 
