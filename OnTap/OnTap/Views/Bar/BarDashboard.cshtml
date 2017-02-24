@@ -217,6 +217,45 @@
         </div>
         <div class="col-lg-8">
             <div class="panel panel-warning" style="margin-top: 10px;">
+                <h3>Bar Reviews</h3>
+                @if (!Model.Bar.BarReviews.Any())
+            {
+                    <text>There are no reviews to display</text>
+                }
+                else
+                {
+                    <table id="reviews" class="table table-condensed table-responsive panel-warning" style="margin-bottom: 15px; border:none;">
+                        <thead size="5" class="panel-heading panel-warning">
+                            <tr size="5">
+                                <th>Post Date</th>
+                                <th>Subject</th>
+                                <th size="5">Message</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var review in Model.Bar.BarReviews)
+                            {
+                                <tr>
+                                    <td>@review.Created</td>
+                                    <td>@review.Subject</td>
+                                    <td>@review.Content</td>
+                                    <td>@review.Rating</td>
+                                   
+
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+        </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-warning" style="margin-top: 10px;">
                 <h3>Bar Feed</h3>
                 @if (!Model.Bar.FeedMessages.Any())
             {
