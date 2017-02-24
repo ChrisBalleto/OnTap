@@ -24,9 +24,6 @@ else
                 <label> Games </label>
                 @Html.DropDownListFor(m => m.BarGame.Id, new SelectList(Model.BarGames, "Id", "GameName"), "Select Game", new { @class = "form-control" })
             </div>
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-default" value="Add Game" />
-            </div>
         </div>
         <div class="col-lg-6">
             <h3>Add Sports Packages</h3>
@@ -37,7 +34,7 @@ else
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-default" value="Add Package" />
+                    <input type="submit" class="btn btn-default" value="Add" />
                 </div>
             </div>
         </div>
@@ -86,7 +83,7 @@ else
                         success: function (response) {
                             button.parents("tr").remove();
                             console.log("SUCCESS")
-                            //window.location.href = response.Url;
+                            window.location.href = response.Url;
                         }
                     });
                 }

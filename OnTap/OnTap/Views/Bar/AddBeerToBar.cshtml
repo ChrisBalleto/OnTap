@@ -129,7 +129,7 @@ else
         var id = @Model.Bar.Id;
         $.ajax({
             'type': 'POST',
-            'url': '../Bar/AddBeerToBar',
+            'url': '../Bar/AddBeerToBar/',
             'data': {
                     'id': @Model.Bar.Id,
                 'beers':idsToAdd,
@@ -143,6 +143,7 @@ else
                 window.location.href = response.Url;
             },
             error: function () {
+
             }
 
         })

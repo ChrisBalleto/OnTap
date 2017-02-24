@@ -278,7 +278,7 @@ namespace OnTap.Controllers
                 _context.SaveChanges();
             }
 
-            var redirectUrl = new UrlHelper(Request.RequestContext).Action("AddBeerToBar", "Bar", new { Id = bar.Id });
+            var redirectUrl = new UrlHelper(Request.RequestContext).Action("AddBeerToBar", "Bar");
             return Json(new { Url = redirectUrl });
         }
 

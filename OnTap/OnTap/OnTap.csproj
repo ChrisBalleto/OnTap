@@ -344,6 +344,30 @@
     <Compile Include="Migrations\201702230216511_descriptionofBar.Designer.cs">
       <DependentUpon>201702230216511_descriptionofBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702232229258_createddateforreview.cs" />
+    <Compile Include="Migrations\201702232229258_createddateforreview.Designer.cs">
+      <DependentUpon>201702232229258_createddateforreview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702240120508_ratingtodouble.cs" />
+    <Compile Include="Migrations\201702240120508_ratingtodouble.Designer.cs">
+      <DependentUpon>201702240120508_ratingtodouble.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702240125316_updatenullablebarratingdouble.cs" />
+    <Compile Include="Migrations\201702240125316_updatenullablebarratingdouble.Designer.cs">
+      <DependentUpon>201702240125316_updatenullablebarratingdouble.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702240127089_idk.cs" />
+    <Compile Include="Migrations\201702240127089_idk.Designer.cs">
+      <DependentUpon>201702240127089_idk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702240127393_idc.cs" />
+    <Compile Include="Migrations\201702240127393_idc.Designer.cs">
+      <DependentUpon>201702240127393_idc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702240131520_notnullablerating.cs" />
+    <Compile Include="Migrations\201702240131520_notnullablerating.Designer.cs">
+      <DependentUpon>201702240131520_notnullablerating.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Min21ToSignUp.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -368,6 +392,7 @@
     <Compile Include="ViewModels\AddTapBeerViewModel.cs" />
     <Compile Include="ViewModels\BarDashboardViewModel.cs" />
     <Compile Include="ViewModels\BarGamesAndSportsViewModel.cs" />
+    <Compile Include="ViewModels\BarReviewViewModel.cs" />
     <Compile Include="ViewModels\BarSpecialsViewModel.cs" />
     <Compile Include="ViewModels\BarMessageFeedViewModel.cs" />
     <Compile Include="ViewModels\HoursOfOperationViewModel.cs" />
@@ -761,6 +786,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702230216511_descriptionofBar.resx">
       <DependentUpon>201702230216511_descriptionofBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702232229258_createddateforreview.resx">
+      <DependentUpon>201702232229258_createddateforreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702240120508_ratingtodouble.resx">
+      <DependentUpon>201702240120508_ratingtodouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702240125316_updatenullablebarratingdouble.resx">
+      <DependentUpon>201702240125316_updatenullablebarratingdouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702240127089_idk.resx">
+      <DependentUpon>201702240127089_idk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702240127393_idc.resx">
+      <DependentUpon>201702240127393_idc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702240131520_notnullablerating.resx">
+      <DependentUpon>201702240131520_notnullablerating.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

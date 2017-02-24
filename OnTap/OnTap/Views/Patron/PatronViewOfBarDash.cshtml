@@ -19,7 +19,19 @@
                     Address: @Model.Bar.StreetOne @Model.Bar.City.CityName @Model.Bar.State.StateName @Model.Bar.ZipCode.ZipCodeNum
                 </div>
                 <div class="panel-body">
-                    Rating: @Model.Bar.Rating
+                    Phone: @Model.Bar.PhoneNumber
+                </div>
+                <div class="panel-body">
+
+                    Rating:
+                    @if (Model.Bar.BarReviews.Count == 0)
+                    {
+                        @: NA
+                    }
+                    else
+                    {
+                        <b>@Model.Bar.Rating</b>
+                    }
                 </div>
                 @if (User.IsInRole("Patron"))
                 {
@@ -197,29 +209,81 @@
             </div>*@
     </div>
     <div class="row">
-        <div class="col-lg-3">
-            @using (Html.BeginForm("BarReview", "Bar", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        <div class="col-lg-4">
+            <div class="panel panel-warning" style="margin-top: 10px;">
+                @using (Html.BeginForm("BarReview", "Patron", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
-                <h4>New Message</h4>
-                <div class="form-group ">
-                    <label> Subject </label>
-                    @Html.TextBoxFor(m => m.Review.Subject, new { @class = "form-control" })
-                </div>
-                <div class="form-group ">
-                    <label> Message </label>
-                    @Html.TextAreaFor(m => m.Review.Content, new { @class = "form-control", rows = 3 })
-                </div>
-                <div class="form-group ">
-                    <label> Message </label>
-                    @Html.TextAreaFor(m => m.Review.Rating, new { @class = "form-control", rows = 3 })
-                </div>
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-default form" value="Send" />
-                </div>
-                @Html.HiddenFor(m => m.Bar.Id)
-            }
+                    <h4>New Review</h4>
+                    <div class="form-group ">
+                        <label> Subject </label>
+                        @Html.TextBoxFor(m => m.Review.Subject, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group ">
+                        <label> Review </label>
+                        @Html.TextAreaFor(m => m.Review.Content, new { @class = "form-control", rows = 3 })
+                    </div>
+                    <div class="form-group ">
+                        <label> Rating (1 - 5)</label>
+                        @Html.TextBoxFor(m => m.Review.Rating, new { @class = "form-control", @style = "width:75px;", @type = "number" })
+                    </div>
+                    
+                    @Html.HiddenFor(m => m.Bar.Id)
+                    
+                    <div class="col-md-10">
+                        <input type="submit" class="btn btn-default form" value="Send" />
+                    </div>
+                }
+            </div>
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-8">
+            <div class="panel panel-warning" style="margin-top: 10px;">
+                <h3>Bar Reviews</h3>
+                @if (!Model.Bar.BarReviews.Any())
+            {
+                    <text>There are no reviews to display</text>
+                }
+                else
+                {
+                    <table id="reviews" class="table table-condensed table-responsive panel-warning" style="margin-bottom: 15px; border:none;">
+                        <thead size="5" class="panel-heading panel-warning">
+                            <tr size="5">
+                                <th>Post Date</th>
+                                <th>Subject</th>
+                                <th size="5">Message</th>
+                                <th>Rating</th>
+                                <th size="5">Delete?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var review in Model.Bar.BarReviews)
+                            {
+                                <tr>
+                                    <td>@review.Created</td>
+                                    <td>@review.Subject</td>
+                                    <td>@review.Content</td>
+                                    <td>@review.Rating</td>
+                                    @if (Model.Patron.BarReviews.Contains(review))
+                                    {
+                                        <td>
+                                            <button data-review-id="@review.Id" data-bar-id="@Model.Bar.Id" class="btn btn-link js-delete">Delete</button>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>NA</td>
+                                    }
+
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
             <div class="panel panel-warning" style="margin-top: 10px;">
                 <h3>Bar Feed</h3>
 
@@ -261,15 +325,15 @@
                 "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
             });
 
-            $('#feedMessages').on('click', '.js-delete', function () {
+            $('#reviews').on('click', '.js-delete', function () {
                 var button = $(this);
                 bootbox.confirm("Are you sure you want to delete message?", function (result) {
                     if (result) {
                         $.ajax({
-                            'url': '../Bar/RemoveMessage',
-                            method: "POST",
+                            'url': '../RemoveReview',
+                            method: "DELETE",
                             data:{
-                                'id': button.attr("data-message-id"),
+                                'id': button.attr("data-review-id"),
                                 'id2': @Model.Bar.Id,
                             },
                             success: function (response) {

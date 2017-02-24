@@ -74,7 +74,7 @@ namespace OnTap.Models
 
         public bool HasJukebox { get; set; }
 
-        public int? Rating { get; set; }
+        public double Rating { get; set; }
 
         public int? RatingCount { get; set; }
 

@@ -11,6 +11,12 @@ namespace OnTap.ViewModels
     {
         public Patron Patron { get; set; }
 
+        public BarGame BarGame {get;set;}
+
+        public TapBeer TapBeer { get; set; }
+        
+        public SportsPackage SportsPackage { get; set; }
+
         public IEnumerable<Bar> Bars { get; set; }
 
         public IEnumerable<BarGame> BarGames { get; set; }
