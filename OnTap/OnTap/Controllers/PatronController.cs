@@ -272,6 +272,34 @@ namespace OnTap.Controllers
             return RedirectToAction("SearchBars");
         }
 
+        public ActionResult FollowBarFromBarDash(int id)
+        {
+            var currentUser = User.Identity.Name;
+            var patron = _context.Patrons.Include(p => p.FollowedBars).SingleOrDefault(c => c.Email == currentUser);
+            var bar = _context.Bars.SingleOrDefault(c => c.Id == id);
+
+            patron.FollowedBars.Add(bar);
+            bar.Followers.Add(patron);
+            _context.SaveChanges();
+
+
+            return RedirectToAction("PatronViewOfBarDash", new { Id = bar.Id });
+        }
+
+        public ActionResult UnFollowBarFromBarDash(int id)
+        {
+            var currentUser = User.Identity.Name;
+            var patron = _context.Patrons.Include(p => p.FollowedBars).SingleOrDefault(c => c.Email == currentUser);
+            var bar = _context.Bars.SingleOrDefault(c => c.Id == id);
+
+            patron.FollowedBars.Remove(bar);
+            bar.Followers.Remove(patron);
+            _context.SaveChanges();
+
+
+            return RedirectToAction("PatronViewOfBarDash", new { Id = bar.Id });
+        }
+
         public ActionResult UnFollowBarFromDash(int id)
         {
             var currentUser = User.Identity.Name;
